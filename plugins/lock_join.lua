@@ -17,5 +17,4 @@ return {patterns = {
       "^!!tgservice (chat_add_user_link)$"
 }, run = run}
 
---By Cyber
-
+--By cyber
