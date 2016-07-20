@@ -220,34 +220,34 @@ local function unlock_group_links(msg, data, target)
   end
 end
 
-local function lock_group_join(msg, data, target)
+local function lock_group_english(msg, data, target)
   if not is_momod(msg) then
     return
   end
-  local group_join_lock = data[tostring(target)]['settings']['lock_join']
-  if group_join_lock == 'yes' then
-    local text = 'join is already locked'
+  local group_english_lock = data[tostring(target)]['settings']['lock_english']
+  if group_english_lock == 'yes' then
+    local text = 'english is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_join'] = 'yes'
+    data[tostring(target)]['settings']['lock_english'] = 'yes'
     save_data(_config.moderation.data, data)
-    local text = 'join has been locked'
+    local text = 'english has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   end
 end
 
-local function unlock_group_join(msg, data, target)
+local function unlock_group_english(msg, data, target)
   if not is_momod(msg) then
     return
   end
-  local group_join_lock = data[tostring(target)]['settings']['lock_join']
-  if group_join_lock == 'no' then
-    local text = 'join is not locked'
+  local group_english_lock = data[tostring(target)]['settings']['lock_english']
+  if group_english_lock == 'no' then
+    local text = 'english is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_join'] = 'no'
+    data[tostring(target)]['settings']['lock_english'] = 'no'
     save_data(_config.moderation.data, data)
-    local text = 'join has been unlocked'
+    local text = 'english has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
   end
 end
@@ -858,8 +858,8 @@ if data[tostring(target)]['settings'] then
 		end
 end
 if data[tostring(target)]['settings'] then
-		if not data[tostring(target)]['settings']['lock_join'] then
-			data[tostring(target)]['settings']['lock_join'] = 'no'
+		if not data[tostring(target)]['settings']['lock_english'] then
+			data[tostring(target)]['settings']['lock_english'] = 'no'
 		end
 end
       if data[tostring(target)]['settings'] then
@@ -879,7 +879,7 @@ end
 	end
   local settings = data[tostring(target)]['settings']
   local chat_id = msg.to.id
-  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Lock links : "..settings.lock_link.."\n💠Lock flood: "..settings.flood.."\n💠Lock spam: "..settings.lock_spam.."\n💠Lock Tags : "..settings.lock_tags.."\n💠Lock Contacts: "..settings.lock_contacts.."\n💠Lock Emoji: "..settings.lock_emoji.."\n💠Lock Username : "..settings.lock_username.."\n💠Lock Media: "..settings.lock_media.."\n💠Lock Bots: "..settings.lock_bots.."\n💠Lock Leave: "..settings.lock_leave.."\n💠Lock Join: "..settings.lock_join.."\n💠Lock Arabic: "..settings.lock_arabic.."\n💠Lock Member: "..settings.lock_member.."\n💠Lock RTL: "..settings.lock_rtl.."\n💠Lock Tgservice : "..settings.lock_tgservice.."\n💠Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Flood sensitivity : "..NUM_MSG_MAX.."\n💠Public: "..settings.public.."\n💠Strict settings: "..settings.strict.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
+  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Lock links : "..settings.lock_link.."\n💠Lock flood: "..settings.flood.."\n💠Lock spam: "..settings.lock_spam.."\n💠Lock Tags : "..settings.lock_tags.."\n💠Lock Contacts: "..settings.lock_contacts.."\n💠Lock Emoji: "..settings.lock_emoji.."\n💠Lock Username : "..settings.lock_username.."\n💠Lock Media: "..settings.lock_media.."\n💠Lock Bots: "..settings.lock_bots.."\n💠Lock Leave: "..settings.lock_leave.."\n💠Lock English: "..settings.lock_english.."\n💠Lock Arabic: "..settings.lock_arabic.."\n💠Lock Member: "..settings.lock_member.."\n💠Lock RTL: "..settings.lock_rtl.."\n💠Lock Tgservice : "..settings.lock_tgservice.."\n💠Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Flood sensitivity : "..NUM_MSG_MAX.."\n💠Public: "..settings.public.."\n💠Strict settings: "..settings.strict.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
   return reply_msg(msg.id, text, ok_cb, false)
 end
 
@@ -1982,9 +1982,9 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked leave ")
 				return lock_group_leave(msg, data, target)
 			end
-			if matches[2] == 'join' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked join ")
-				return lock_group_join(msg, data, target)
+			if matches[2] == 'english' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked english ")
+				return lock_group_english(msg, data, target)
 			end
 			if matches[2] == 'tags' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked tags posting ")
@@ -2054,9 +2054,9 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked leave")
 				return unlock_group_leave(msg, data, target)
 			end
-			if matches[2] == 'join' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked join")
-				return unlock_group_join(msg, data, target)
+			if matches[2] == 'english' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked english")
+				return unlock_group_english(msg, data, target)
 			end
 			if matches[2] == 'tags' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked tags posting ")
