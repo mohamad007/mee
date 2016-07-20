@@ -241,7 +241,7 @@ function create_config( )
     "plugins",
     "lock_bots",
     "lock_leave",
-    "lock_join",
+    "lock_english",
     "lock_emoji",
     "lock_media",
     "lock_tags",
