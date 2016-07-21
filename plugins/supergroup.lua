@@ -2049,22 +2049,24 @@ local function run(msg, matches)
 		if matches[1] == 'lock' and is_momod(msg) then
 			local target = msg.to.id
 			if matches[2] == 'all' then
-				lock_group_tags(msg, data, target),
-				lock_group_spam(msg, data, target),
-				lock_group_flood(msg, data, target),
-				lock_group_arabic(msg, data, target),
-				lock_group_membermod(msg, data, target),
-				lock_group_rtl(msg, data, target),
-				lock_group_tgservice(msg, data, target),
-				lock_group_sticker(msg, data, target),
-				lock_group_contacts(msg, data, target),
-				lock_group_english(msg, data, target),
-				lock_group_emoji(msg, data, target),
-				lock_group_username(msg, data, target),
-				lock_group_media(msg, data, target),
-				lock_group_leave(msg, data, target),
-				lock_group_bots(msg, data, target),
-				lock_group_number(msg, data, target),
+		local safemode ={
+			lock_group_tags(msg, data, target),
+		lock_group_spam(msg, data, target),
+		lock_group_flood(msg, data, target),
+		lock_group_arabic(msg, data, target),
+		lock_group_membermod(msg, data, target),
+		lock_group_rtl(msg, data, target),
+		lock_group_tgservice(msg, data, target),
+		lock_group_sticker(msg, data, target),
+		lock_group_contacts(msg, data, target),
+		lock_group_english(msg, data, target),
+		lock_group_emoji(msg, data, target),
+		lock_group_username(msg, data, target),
+		lock_group_media(msg, data, target),
+		lock_group_leave(msg, data, target),
+		lock_group_bots(msg, data, target),
+		lock_group_number(msg, data, target),
+				}
 				return lock_group_links(msg, data, target),
 			end
 			if matches[2] == 'links' then
@@ -2144,23 +2146,25 @@ local function run(msg, matches)
 		if matches[1] == 'unlock' and is_momod(msg) then
 			local target = msg.to.id
 			if matches[2] == 'all' then
-				unlock_group_tags(msg, data, target),
-				unlock_group_spam(msg, data, target),
-				unlock_group_flood(msg, data, target),
-				unlock_group_arabic(msg, data, target),
-				unlock_group_membermod(msg, data, target),
-				unlock_group_rtl(msg, data, target),
-				unlock_group_tgservice(msg, data, target),
-				unlock_group_sticker(msg, data, target),
-				unlock_group_contacts(msg, data, target),
-				unlock_group_english(msg, data, target),
-				unlock_group_emoji(msg, data, target),
-				unlock_group_username(msg, data, target),
-				unlock_group_media(msg, data, target),
-				unlock_group_leave(msg, data, target),
-				unlock_group_bots(msg, data, target),
-				unlock_group_number(msg, data, target),
-				return unlock_group_links(msg, data, target)
+		local dsafemode ={
+			unlock_group_tags(msg, data, target),
+		unlock_group_spam(msg, data, target),
+		unlock_group_flood(msg, data, target),
+		unlock_group_arabic(msg, data, target),
+		unlock_group_membermod(msg, data, target),
+		unlock_group_rtl(msg, data, target),
+		unlock_group_tgservice(msg, data, target),
+		unlock_group_sticker(msg, data, target),
+		unlock_group_contacts(msg, data, target),
+		unlock_group_english(msg, data, target),
+		unlock_group_emoji(msg, data, target),
+		unlock_group_username(msg, data, target),
+		unlock_group_media(msg, data, target),
+		unlock_group_leave(msg, data, target),
+		unlock_group_bots(msg, data, target),
+		unlock_group_number(msg, data, target),
+				}
+				return unlock_group_links(msg, data, target),
 			end
 			if matches[2] == 'links' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked link posting")
