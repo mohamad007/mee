@@ -1742,7 +1742,7 @@ local function run(msg, matches)
 					end
 				end
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
-				return "💢FirstName : "..(msg.from.first_name or "---").."\n💢LastName : "..(msg.from.last_name or "---").."\n💢UserName :@"..(msg.from.username or "---").."\n💢ID : "..msg.from.id.."💢rank : "..userrank.."\n💢PhoneNumber : "..number.."\n💢TotalMessage : "..user_info.msgs.."\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n💢GroupID : "..msg.to.id
+				return "💢FirstName : "..(msg.from.first_name or "---").."\n💢LastName : "..(msg.from.last_name or "---").."\n💢UserName :@"..(msg.from.username or "---").."\n💢ID : "..msg.from.id.."💢rank : "..userrank.."\n💢PhoneNumber : "..number.."\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n💢GroupID : "..msg.to.id
 			end
 		end
 
