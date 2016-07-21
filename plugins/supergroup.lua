@@ -2067,7 +2067,7 @@ local function run(msg, matches)
 		lock_group_bots(msg, data, target),
 		lock_group_number(msg, data, target),
 				}
-				return lock_group_links(msg, data, target),
+				return lock_group_links(msg, data, target), safemode
 			end
 			if matches[2] == 'links' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked link posting ")
@@ -2164,7 +2164,7 @@ local function run(msg, matches)
 		unlock_group_bots(msg, data, target),
 		unlock_group_number(msg, data, target),
 				}
-				return unlock_group_links(msg, data, target),
+				return unlock_group_links(msg, data, target), dsafemode
 			end
 			if matches[2] == 'links' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked link posting")
