@@ -2052,6 +2052,7 @@ local function run(msg, matches)
 		local safemode ={
 			lock_group_tags(msg, data, target),
 		lock_group_spam(msg, data, target),
+		lock_group_links(msg, data, target),
 		lock_group_flood(msg, data, target),
 		lock_group_arabic(msg, data, target),
 		lock_group_membermod(msg, data, target),
@@ -2149,6 +2150,7 @@ local function run(msg, matches)
 		local dsafemode ={
 			unlock_group_tags(msg, data, target),
 		unlock_group_spam(msg, data, target),
+		unlock_group_links(msg, data, target),
 		unlock_group_flood(msg, data, target),
 		unlock_group_arabic(msg, data, target),
 		unlock_group_membermod(msg, data, target),
