@@ -240,6 +240,7 @@ function create_config( )
     "delplug",
     "plugins",
     "lock_bots",
+    "lock_number",
     "lock_leave",
     "lock_english",
     "lock_emoji",
