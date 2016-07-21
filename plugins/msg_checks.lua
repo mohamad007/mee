@@ -18,6 +18,11 @@ if is_chat_msg(msg) or is_super_group(msg) then
 	else
 		lock_arabic = 'no'
 	end
+	if settings.lock_number then
+		lock_rtl = settings.lock_number
+	else
+		lock_number = 'no'
+	end
 	if settings.lock_rtl then
 		lock_rtl = settings.lock_rtl
 	else
@@ -74,6 +79,13 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					kick_user(msg.from.id, msg.to.id)
 				end
 			end
+			local is_number_msg = msg.text:match("[1234567890]")
+			if is_number_msg and lock_number == "yes" then
+				delete_msg(msg.id, ok_cb, false)
+				if strict == "yes" or to_chat then
+					return
+				end
+			end
 			local is_link_msg = msg.text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.text:match("@") or msg.text:match("#")
 			local is_bot = msg.text:match("?[Ss][Tt][Aa][Rr][Tt]=")
 			if is_link_msg and lock_link == "yes" and not is_bot then
@@ -121,6 +133,13 @@ if is_chat_msg(msg) or is_super_group(msg) then
 						kick_user(msg.from.id, msg.to.id)
 					end
 				end
+				local is_number_title = msg.media.title:match("[1234567890]")
+				if is_number_title and lock_number == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+					if strict == "yes" or to_chat then
+						return
+					end
+				end
 				local is_squig_title = msg.media.title:match("[\216-\219][\128-\191]")
 				if is_squig_title and lock_arabic == "yes" then
 					delete_msg(msg.id, ok_cb, false)
@@ -137,6 +156,13 @@ if is_chat_msg(msg) or is_super_group(msg) then
 						kick_user(msg.from.id, msg.to.id)
 					end
 				end
+				local is_number_desc = msg.media.description:match("[1234567890]")
+				if is_number_desc and lock_number == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+					if strict == "yes" or to_chat then
+						return
+					end
+				end
 				local is_squig_desc = msg.media.description:match("[\216-\219][\128-\191]")
 				if is_squig_desc and lock_arabic == "yes" then
 					delete_msg(msg.id, ok_cb, false)
@@ -151,6 +177,13 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
+					end
+				end
+				local is_number_caption = msg.media.caption:match("[1234567890]")
+				if is_number_caption and lock_number == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+					if strict == "yes" or to_chat then
+						return
 					end
 				end
 				local is_squig_caption = msg.media.caption:match("[\216-\219][\128-\191]")
@@ -221,6 +254,13 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
+					end
+				end
+				local is_number_title = msg.fwd_from.title:match("[1234567890]")
+				if is_number_title and lock_number == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+					if strict == "yes" or to_chat then
+						return
 					end
 				end
 				local is_squig_title = msg.fwd_from.title:match("[\216-\219][\128-\191]")
