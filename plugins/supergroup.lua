@@ -1665,8 +1665,84 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested ID for: @"..username)
 				resolve_username(username,  callbackres, cbres_extra)
 			else
+				local user_info = {}
+				local uhash = 'user:'..result.from.id
+				local user = redis:hgetall(uhash)
+				local um_hash = 'msgs:'..result.from.id..':'..result.to.id
+				user_info.msgs = tonumber(redis:get(um_hash) or 0)
+				userrank = "Member"
+				if tonumber(result.from.id) == 175636120 then
+					userrank = "Master ⭐⭐⭐⭐"
+					send_document(org_chat_id,"umbrella/stickers/master.webp", ok_cb, false)
+				elseif is_sudo(result) then
+					userrank = "Sudo ⭐⭐⭐⭐⭐"
+					send_document(org_chat_id,"umbrella/stickers/sudo.webp", ok_cb, false)
+				elseif is_admin2(result.from.id) then
+					userrank = "Admin ⭐⭐⭐"
+					send_document(org_chat_id,"umbrella/stickers/admin.webp", ok_cb, false)
+				elseif is_owner2(result.from.id, result.to.id) then
+					userrank = "Owner ⭐⭐"
+					send_document(org_chat_id,"umbrella/stickers/leader.webp", ok_cb, false)
+				elseif is_momod2(result.from.id, result.to.id) then
+					userrank = "Moderator ⭐"
+					send_document(org_chat_id,"umbrella/stickers/mod.webp", ok_cb, false)
+				elseif result.from.username then
+					if string.sub(result.from.username:lower(), -3) == "bot" then
+						userrank = "API Bot"
+						send_document(org_chat_id,"umbrella/stickers/api.webp", ok_cb, false)
+					end
+				end
+				if access == 1 then
+					if result.from.phone then
+						number = "+"..string.sub(result.from.phone, 3)
+						if string.sub(result.from.phone, 0,2) == '98' then
+							number = number.."\nکشور: جمهوری اسلامی ایران"
+							if string.sub(result.from.phone, 0,4) == '9891' then
+								number = number.."\nنوع سیمکارت: همراه اول"
+							elseif string.sub(result.from.phone, 0,5) == '98932' then
+								number = number.."\nنوع سیمکارت: تالیا"
+							elseif string.sub(result.from.phone, 0,4) == '9893' then
+								number = number.."\nنوع سیمکارت: ایرانسل"
+							elseif string.sub(result.from.phone, 0,4) == '9890' then
+								number = number.."\nنوع سیمکارت: ایرانسل"
+							elseif string.sub(result.from.phone, 0,4) == '9892' then
+								number = number.."\nنوع سیمکارت: رایتل"
+							else
+								number = number.."\nنوع سیمکارت: سایر"
+							end
+						else
+							number = number.."\nکشور: خارج\nنوع سیمکارت: متفرقه"
+						end
+					else
+						number = "----"
+					end
+				elseif access == 0 then
+					if result.from.phone then
+						number = "شما مجاز نیستید"
+						if string.sub(result.from.phone, 0,2) == '98' then
+							number = number.."\nکشور: جمهوری اسلامی ایران"
+							if string.sub(result.from.phone, 0,4) == '9891' then
+								number = number.."\nنوع سیمکارت: همراه اول"
+							elseif string.sub(result.from.phone, 0,5) == '98932' then
+								number = number.."\nنوع سیمکارت: تالیا"
+							elseif string.sub(result.from.phone, 0,4) == '9893' then
+								number = number.."\nنوع سیمکارت: ایرانسل"
+							elseif string.sub(result.from.phone, 0,4) == '9890' then
+								number = number.."\nنوع سیمکارت: ایرانسل"
+							elseif string.sub(result.from.phone, 0,4) == '9892' then
+								number = number.."\nنوع سیمکارت: رایتل"
+							else
+								number = number.."\nنوع سیمکارت: سایر"
+							end
+						else
+							number = number.."\nکشور: خارج\nنوع سیمکارت: متفرقه"
+						end
+					else
+						number = "----"
+					end
+				end
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
-				return "💢FirstName : "..(msg.from.first_name or "---").."\n💢LastName : "..(msg.from.last_name or "---").."\n💢UserName :@"..(msg.from.username or "---").."\n💢ID : "..msg.from.id.."\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n💢GroupID : "..msg.to.id
+				return "💢FirstName : "..(msg.from.first_name or "---").."\n💢LastName : "..(msg.from.last_name or "---").."\n💢UserName :@"..(msg.from.username or "---").."\n💢ID : "..msg.from.id.."💢rank : "..userrank.."\n💢PhoneNumber : "..number.."\n💢TotalMessage : "..user_info.msgs.."\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n💢GroupID : "..msg.to.id
 			end
 		end
 
