@@ -220,6 +220,38 @@ local function unlock_group_links(msg, data, target)
   end
 end
 
+local function lock_group_fwd(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
+  if group_fwd_lock == 'yes' then
+    local text = 'fwd posting is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_fwd'] = 'yes'
+    save_data(_config.moderation.data, data)
+    local text = 'fwd posting has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_fwd(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
+  if group_fwd_lock == 'no' then
+    local text = 'fwd posting is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_fwd'] = 'no'
+    save_data(_config.moderation.data, data)
+    local text = 'fwd posting has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
 local function lock_group_all(msg, data, target)
   if not is_momod(msg) then
     return
@@ -936,6 +968,11 @@ if data[tostring(target)]['settings'] then
 			data[tostring(target)]['settings']['lock_all'] = 'no'
 		end
 end
+if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_fwd'] then
+			data[tostring(target)]['settings']['lock_fwd'] = 'no'
+		end
+end
       if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_emoji'] then
 			data[tostring(target)]['settings']['lock_emoji'] = 'no'
@@ -953,7 +990,7 @@ end
 	end
   local settings = data[tostring(target)]['settings']
   local chat_id = msg.to.id
-  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Lock links : "..settings.lock_link.."\n💠Lock flood: "..settings.flood.."\n💠Lock spam: "..settings.lock_spam.."\n💠Lock Tags : "..settings.lock_tags.."\n💠Lock Number: "..settings.lock_number.."\n💠Lock Contacts: "..settings.lock_contacts.."\n💠Lock Emoji: "..settings.lock_emoji.."\n💠Lock Username : "..settings.lock_username.."\n💠Lock Media: "..settings.lock_media.."\n💠Lock Bots: "..settings.lock_bots.."\n💠Lock Leave: "..settings.lock_leave.."\n💠Lock English: "..settings.lock_english.."\n💠Lock Arabic: "..settings.lock_arabic.."\n💠Lock Member: "..settings.lock_member.."\n💠Lock RTL: "..settings.lock_rtl.."\n💠Lock Tgservice : "..settings.lock_tgservice.."\n💠Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Flood sensitivity : "..NUM_MSG_MAX.."\n💠Public: "..settings.public.."\n💠Strict settings: "..settings.strict.."\n💠Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
+  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Lock links : "..settings.lock_link.."\n💠Lock flood: "..settings.flood.."\n💠Lock spam: "..settings.lock_spam.."\n💠Lock Tags : "..settings.lock_tags.."\n💠Lock Number: "..settings.lock_number.."\n💠Lock Forward : "..settings.lock_fwd.."\n💠Lock Contacts: "..settings.lock_contacts.."\n💠Lock Emoji: "..settings.lock_emoji.."\n💠Lock Username : "..settings.lock_username.."\n💠Lock Media: "..settings.lock_media.."\n💠Lock Bots: "..settings.lock_bots.."\n💠Lock Leave: "..settings.lock_leave.."\n💠Lock English: "..settings.lock_english.."\n💠Lock Arabic: "..settings.lock_arabic.."\n💠Lock Member: "..settings.lock_member.."\n💠Lock RTL: "..settings.lock_rtl.."\n💠Lock Tgservice : "..settings.lock_tgservice.."\n💠Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Flood sensitivity : "..NUM_MSG_MAX.."\n💠Public: "..settings.public.."\n💠Strict settings: "..settings.strict.."\n💠Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
   return reply_msg(msg.id, text, ok_cb, false)
 end
 
@@ -2060,6 +2097,7 @@ local function run(msg, matches)
 		lock_group_tgservice(msg, data, target),
 		lock_group_sticker(msg, data, target),
 		lock_group_contacts(msg, data, target),
+		lock_group_fwd(msg, data, target),
 		lock_group_english(msg, data, target),
 		lock_group_emoji(msg, data, target),
 		lock_group_username(msg, data, target),
@@ -2073,6 +2111,10 @@ local function run(msg, matches)
 			if matches[2] == 'links' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked link posting ")
 				return lock_group_links(msg, data, target)
+			end
+			if matches[2] == 'fwd' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked fwd posting ")
+				return lock_group_fwd(msg, data, target)
 			end
 			if matches[2] == 'leave' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked leave ")
@@ -2158,6 +2200,7 @@ local function run(msg, matches)
 		unlock_group_tgservice(msg, data, target),
 		unlock_group_sticker(msg, data, target),
 		unlock_group_contacts(msg, data, target),
+		unlock_group_fwd(msg, data, target),
 		unlock_group_english(msg, data, target),
 		unlock_group_emoji(msg, data, target),
 		unlock_group_username(msg, data, target),
@@ -2171,6 +2214,10 @@ local function run(msg, matches)
 			if matches[2] == 'links' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked link posting")
 				return unlock_group_links(msg, data, target)
+			end
+			if matches[2] == 'fwd' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked fwd posting")
+				return unlock_group_fwd(msg, data, target)
 			end
 			if matches[2] == 'leave' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked leave")

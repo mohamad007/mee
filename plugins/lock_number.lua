@@ -6,10 +6,12 @@ local function run(msg)
 
 
 if msg.to.type == 'channel' and not is_momod(msg) then
-	delete_msg(msg.id,ok_cb,false)
+	if msg.text:match("[1234567890]") or msg.media.title:match("[1234567890]") or msg.media.description:match("[1234567890]") or msg.media.caption:match("[1234567890]") or msg.fwd_from.title:match("[1234567890]") then
+		delete_msg(msg.id,ok_cb,false)
 
-        return 
-      end
+			return 
+		 end
+	  end
    end
 end
 
