@@ -18,22 +18,22 @@ local function check_member_super(cb_extra, success, result)
         set_owner = member_id ,
         settings = {
           set_name = string.gsub(msg.to.title, '_', ' '),
-		  lock_arabic = 'no',
-		  lock_link = "no",
-		  lock_bots = "yes",
-		  lock_tags = "no",
-		  lock_emoji = "no",
-		  lock_username = "no",
-		  lock_media = "no",
-          flood = 'yes',
-		  lock_spam = 'yes',
-		  lock_sticker = 'no',
-		  member = 'no',
-		  public = 'no',
-		  lock_rtl = 'no',
-		  lock_tgservice = 'yes',
-		  lock_contacts = 'no',
-		  strict = 'no'
+		  lock_arabic = '❌',
+		  lock_link = "❌",
+		  lock_bots = "✅",
+		  lock_tags = "❌",
+		  lock_emoji = "❌",
+		  lock_username = "❌",
+		  lock_media = "❌",
+          flood = '✅',
+		  lock_spam = '✅',
+		  lock_sticker = '❌',
+		  member = '❌',
+		  public = '❌',
+		  lock_rtl = '❌',
+		  lock_tgservice = '✅',
+		  lock_contacts = '❌',
+		  strict = '❌'
         }
       }
       save_data(_config.moderation.data, data)
@@ -193,11 +193,11 @@ local function lock_group_links(msg, data, target)
     return
   end
   local group_link_lock = data[tostring(target)]['settings']['lock_link']
-  if group_link_lock == 'yes' then
+  if group_link_lock == '✅' then
     local text = 'Link posting is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_link'] = 'yes'
+    data[tostring(target)]['settings']['lock_link'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'Link posting has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -209,173 +209,13 @@ local function unlock_group_links(msg, data, target)
     return
   end
   local group_link_lock = data[tostring(target)]['settings']['lock_link']
-  if group_link_lock == 'no' then
+  if group_link_lock == '❌' then
     local text = 'Link posting is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_link'] = 'no'
+    data[tostring(target)]['settings']['lock_link'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'Link posting has been unlocked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function lock_group_reply(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_reply_lock = data[tostring(target)]['settings']['lock_reply']
-  if group_reply_lock == 'yes' then
-    local text = 'reply posting is already locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_reply'] = 'yes'
-    save_data(_config.moderation.data, data)
-    local text = 'reply posting has been locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function unlock_group_reply(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_reply_lock = data[tostring(target)]['settings']['lock_reply']
-  if group_reply_lock == 'no' then
-    local text = 'reply posting is not locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_reply'] = 'no'
-    save_data(_config.moderation.data, data)
-    local text = 'reply posting has been unlocked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function lock_group_fwd(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
-  if group_fwd_lock == 'yes' then
-    local text = 'fwd posting is already locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_fwd'] = 'yes'
-    save_data(_config.moderation.data, data)
-    local text = 'fwd posting has been locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function unlock_group_fwd(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
-  if group_fwd_lock == 'no' then
-    local text = 'fwd posting is not locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_fwd'] = 'no'
-    save_data(_config.moderation.data, data)
-    local text = 'fwd posting has been unlocked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function lock_group_all(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_all_lock = data[tostring(target)]['settings']['lock_all']
-  if group_all_lock == 'yes' then
-    local text = 'All settings are already locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_all'] = 'yes'
-    save_data(_config.moderation.data, data)
-    local text = 'All settings has been locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function unlock_group_all(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_all_lock = data[tostring(target)]['settings']['lock_all']
-  if group_all_lock == 'no' then
-    local text = 'All settings are not locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_all'] = 'no'
-    save_data(_config.moderation.data, data)
-    local text = 'All settings has been unlocked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function lock_group_number(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_number_lock = data[tostring(target)]['settings']['lock_number']
-  if group_number_lock == 'yes' then
-    local text = 'number posting is already locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_number'] = 'yes'
-    save_data(_config.moderation.data, data)
-    local text = 'number posting has been locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function unlock_group_number(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_number_lock = data[tostring(target)]['settings']['lock_number']
-  if group_number_lock == 'no' then
-    local text = 'number posting is not locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_number'] = 'no'
-    save_data(_config.moderation.data, data)
-    local text = 'number posting has been unlocked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function lock_group_english(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_english_lock = data[tostring(target)]['settings']['lock_english']
-  if group_english_lock == 'yes' then
-    local text = 'english is already locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_english'] = 'yes'
-    save_data(_config.moderation.data, data)
-    local text = 'english has been locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  end
-end
-
-local function unlock_group_english(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_english_lock = data[tostring(target)]['settings']['lock_english']
-  if group_english_lock == 'no' then
-    local text = 'english is not locked'
-	return reply_msg(msg.id, text, ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_english'] = 'no'
-    save_data(_config.moderation.data, data)
-    local text = 'english has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
   end
 end
@@ -385,11 +225,11 @@ local function lock_group_leave(msg, data, target)
     return
   end
   local group_leave_lock = data[tostring(target)]['settings']['lock_leave']
-  if group_leave_lock == 'yes' then
+  if group_leave_lock == '✅' then
     local text = 'leave is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_leave'] = 'yes'
+    data[tostring(target)]['settings']['lock_leave'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'leave has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -401,13 +241,173 @@ local function unlock_group_leave(msg, data, target)
     return
   end
   local group_leave_lock = data[tostring(target)]['settings']['lock_leave']
-  if group_leave_lock == 'no' then
+  if group_leave_lock == '❌' then
     local text = 'leave is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_leave'] = 'no'
+    data[tostring(target)]['settings']['lock_leave'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'leave has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function lock_group_all(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_all_lock = data[tostring(target)]['settings']['lock_all']
+  if group_all_lock == '✅' then
+    local text = 'all settings are already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_all'] = '✅'
+    save_data(_config.moderation.data, data)
+    local text = 'all settings has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_all(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_all_lock = data[tostring(target)]['settings']['lock_all']
+  if group_all_lock == '❌' then
+    local text = 'all settings are not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_all'] = '❌'
+    save_data(_config.moderation.data, data)
+    local text = 'all settings has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function lock_group_english(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_english_lock = data[tostring(target)]['settings']['lock_english']
+  if group_english_lock == '✅' then
+    local text = 'english posting is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_english'] = '✅'
+    save_data(_config.moderation.data, data)
+    local text = 'english posting has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_english(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_english_lock = data[tostring(target)]['settings']['lock_english']
+  if group_english_lock == '❌' then
+    local text = 'english posting is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_english'] = '❌'
+    save_data(_config.moderation.data, data)
+    local text = 'english posting has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function lock_group_badword(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_badword_lock = data[tostring(target)]['settings']['lock_badword']
+  if group_badword_lock == '✅' then
+    local text = 'badword posting is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_badword'] = '✅'
+    save_data(_config.moderation.data, data)
+    local text = 'badword posting has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_badword(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_badword_lock = data[tostring(target)]['settings']['lock_badword']
+  if group_badword_lock == '❌' then
+    local text = 'badword posting is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_badword'] = '❌'
+    save_data(_config.moderation.data, data)
+    local text = 'badword posting has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function lock_group_number(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_number_lock = data[tostring(target)]['settings']['lock_number']
+  if group_number_lock == '✅' then
+    local text = 'number posting is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_number'] = '✅'
+    save_data(_config.moderation.data, data)
+    local text = 'number posting has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_number(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_number_lock = data[tostring(target)]['settings']['lock_number']
+  if group_number_lock == '❌' then
+    local text = 'number posting is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_number'] = '❌'
+    save_data(_config.moderation.data, data)
+    local text = 'number posting has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function lock_group_operator(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_operator_lock = data[tostring(target)]['settings']['lock_operator']
+  if group_operator_lock == '✅' then
+    local text = 'operator posting is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_operator'] = '✅'
+    save_data(_config.moderation.data, data)
+    local text = 'operator posting has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_operator(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_operator_lock = data[tostring(target)]['settings']['lock_operator']
+  if group_operator_lock == '❌' then
+    local text = 'operator posting is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_operator'] = '❌'
+    save_data(_config.moderation.data, data)
+    local text = 'operator posting has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
   end
 end
@@ -417,11 +417,11 @@ local function lock_group_tags(msg, data, target)
     return
   end
   local group_tag_lock = data[tostring(target)]['settings']['lock_tags']
-  if group_tag_lock == 'yes' then
+  if group_tag_lock == '✅' then
     local text = 'tag is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_tags'] = 'yes'
+    data[tostring(target)]['settings']['lock_tags'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'tag has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -433,13 +433,109 @@ local function unlock_group_tags(msg, data, target)
     return
   end
   local group_tag_lock = data[tostring(target)]['settings']['lock_tags']
-  if group_tag_lock == 'no' then
+  if group_tag_lock == '❌' then
     local text = 'tag is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_tags'] = 'no'
+    data[tostring(target)]['settings']['lock_tags'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'tag has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function lock_group_reply(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_reply_lock = data[tostring(target)]['settings']['lock_reply']
+  if group_reply_lock == '✅' then
+    local text = 'reply posting is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_reply'] = '✅'
+    save_data(_config.moderation.data, data)
+    local text = 'reply posting has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_reply(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_reply_lock = data[tostring(target)]['settings']['lock_reply']
+  if group_reply_lock == '❌' then
+    local text = 'reply posting is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_reply'] = '❌'
+    save_data(_config.moderation.data, data)
+    local text = 'reply posting has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function lock_group_fwd(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
+  if group_fwd_lock == '✅' then
+    local text = 'fwd posting is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_fwd'] = '✅'
+    save_data(_config.moderation.data, data)
+    local text = 'fwd posting has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_fwd(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
+  if group_fwd_lock == '❌' then
+    local text = 'fwd posting is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_fwd'] = '❌'
+    save_data(_config.moderation.data, data)
+    local text = 'fwd posting has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function lock_group_join(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_join_lock = data[tostring(target)]['settings']['lock_join']
+  if group_join_lock == '✅' then
+    local text = 'join is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_join'] = '✅'
+    save_data(_config.moderation.data, data)
+    local text = 'join has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_join(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_join_lock = data[tostring(target)]['settings']['lock_join']
+  if group_join_lock == '❌' then
+    local text = 'join is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_join'] = '❌'
+    save_data(_config.moderation.data, data)
+    local text = 'join has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
   end
 end
@@ -449,11 +545,11 @@ local function lock_group_emoji(msg, data, target)
     return 
   end
   local group_emoji_lock = data[tostring(target)]['settings']['lock_emoji']
-  if group_emoji_lock == 'yes' then
+  if group_emoji_lock == '✅' then
     local text = 'emoji is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_emoji'] = 'yes'
+    data[tostring(target)]['settings']['lock_emoji'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'emoji has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -465,11 +561,11 @@ local function unlock_group_emoji(msg, data, target)
     return 
   end
   local group_emoji_lock = data[tostring(target)]['settings']['lock_emoji']
-  if group_emoji_lock == 'no' then
+  if group_emoji_lock == '❌' then
     local text = 'emoji is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_emoji'] = 'no'
+    data[tostring(target)]['settings']['lock_emoji'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'emoji has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -481,11 +577,11 @@ local function lock_group_username(msg, data, target)
     return 
   end
   local group_username_lock = data[tostring(target)]['settings']['lock_username']
-  if group_username_lock == 'yes' then
+  if group_username_lock == '✅' then
     local text = 'username is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_username'] = 'yes'
+    data[tostring(target)]['settings']['lock_username'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'username has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -497,11 +593,11 @@ local function unlock_group_username(msg, data, target)
     return 
   end
   local group_username_lock = data[tostring(target)]['settings']['lock_username']
-  if group_username_lock == 'no' then
+  if group_username_lock == '❌' then
     local text = 'username is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_username'] = 'no'
+    data[tostring(target)]['settings']['lock_username'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'username has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -513,11 +609,11 @@ local function lock_group_media(msg, data, target)
     return
   end
   local group_media_lock = data[tostring(target)]['settings']['lock_media']
-  if group_media_lock == 'yes' then
+  if group_media_lock == '✅' then
     local text = 'media is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_media'] = 'yes'
+    data[tostring(target)]['settings']['lock_media'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'media has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -529,11 +625,11 @@ local function unlock_group_media(msg, data, target)
     return
   end
   local group_media_lock = data[tostring(target)]['settings']['lock_media']
-  if group_media_lock == 'no' then
+  if group_media_lock == '❌' then
     local text = 'media is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_media'] = 'no'
+    data[tostring(target)]['settings']['lock_media'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'media has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -545,11 +641,11 @@ local function lock_group_bots(msg, data, target)
     return
   end
   local group_bots_lock = data[tostring(target)]['settings']['lock_bots']
-  if group_bots_lock == 'yes' then
+  if group_bots_lock == '✅' then
     local text = 'adding bot is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_bots'] = 'yes'
+    data[tostring(target)]['settings']['lock_bots'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'adding bot has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -561,11 +657,11 @@ local function unlock_group_bots(msg, data, target)
     return
   end
   local group_bots_lock = data[tostring(target)]['settings']['lock_bots']
-  if group_bots_lock == 'no' then
+  if group_bots_lock == '❌' then
     local text = 'adding bot is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_bots'] = 'no'
+    data[tostring(target)]['settings']['lock_bots'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'adding bot has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -580,11 +676,11 @@ local function lock_group_spam(msg, data, target)
     return "Owners only!"
   end
   local group_spam_lock = data[tostring(target)]['settings']['lock_spam']
-  if group_spam_lock == 'yes' then
+  if group_spam_lock == '✅' then
     local text = 'SuperGroup spam is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_spam'] = 'yes'
+    data[tostring(target)]['settings']['lock_spam'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'SuperGroup spam has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -596,11 +692,11 @@ local function unlock_group_spam(msg, data, target)
     return
   end
   local group_spam_lock = data[tostring(target)]['settings']['lock_spam']
-  if group_spam_lock == 'no' then
+  if group_spam_lock == '❌' then
     local text = 'SuperGroup spam is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_spam'] = 'no'
+    data[tostring(target)]['settings']['lock_spam'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'SuperGroup spam has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -612,11 +708,11 @@ local function lock_group_flood(msg, data, target)
     return
   end
   local group_flood_lock = data[tostring(target)]['settings']['flood']
-  if group_flood_lock == 'yes' then
+  if group_flood_lock == '✅' then
     local text = 'Flood is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['flood'] = 'yes'
+    data[tostring(target)]['settings']['flood'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'Flood has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -628,11 +724,11 @@ local function unlock_group_flood(msg, data, target)
     return
   end
   local group_flood_lock = data[tostring(target)]['settings']['flood']
-  if group_flood_lock == 'no' then
+  if group_flood_lock == '❌' then
     local text = 'Flood is not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['flood'] = 'no'
+    data[tostring(target)]['settings']['flood'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'Flood has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -644,11 +740,11 @@ local function lock_group_arabic(msg, data, target)
     return
   end
   local group_arabic_lock = data[tostring(target)]['settings']['lock_arabic']
-  if group_arabic_lock == 'yes' then
+  if group_arabic_lock == '✅' then
     local text = 'Arabic is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_arabic'] = 'yes'
+    data[tostring(target)]['settings']['lock_arabic'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'Arabic has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -660,11 +756,11 @@ local function unlock_group_arabic(msg, data, target)
     return
   end
   local group_arabic_lock = data[tostring(target)]['settings']['lock_arabic']
-  if group_arabic_lock == 'no' then
+  if group_arabic_lock == '❌' then
     local text = 'Arabic/Persian is already unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_arabic'] = 'no'
+    data[tostring(target)]['settings']['lock_arabic'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'Arabic/Persian has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -676,11 +772,11 @@ local function lock_group_membermod(msg, data, target)
     return
   end
   local group_member_lock = data[tostring(target)]['settings']['lock_member']
-  if group_member_lock == 'yes' then
+  if group_member_lock == '✅' then
     local text = 'SuperGroup members are already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_member'] = 'yes'
+    data[tostring(target)]['settings']['lock_member'] = '✅'
     save_data(_config.moderation.data, data)
   end
   local text = 'SuperGroup members has been locked'
@@ -692,11 +788,11 @@ local function unlock_group_membermod(msg, data, target)
     return
   end
   local group_member_lock = data[tostring(target)]['settings']['lock_member']
-  if group_member_lock == 'no' then
+  if group_member_lock == '❌' then
     local text = 'SuperGroup members are not locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_member'] = 'no'
+    data[tostring(target)]['settings']['lock_member'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'SuperGroup members has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -708,11 +804,11 @@ local function lock_group_rtl(msg, data, target)
     return
   end
   local group_rtl_lock = data[tostring(target)]['settings']['lock_rtl']
-  if group_rtl_lock == 'yes' then
+  if group_rtl_lock == '✅' then
     local text = 'RTL is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_rtl'] = 'yes'
+    data[tostring(target)]['settings']['lock_rtl'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'RTL has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -724,11 +820,11 @@ local function unlock_group_rtl(msg, data, target)
     return
   end
   local group_rtl_lock = data[tostring(target)]['settings']['lock_rtl']
-  if group_rtl_lock == 'no' then
+  if group_rtl_lock == '❌' then
     local text = 'RTL is already unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_rtl'] = 'no'
+    data[tostring(target)]['settings']['lock_rtl'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'RTL has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -740,11 +836,11 @@ local function lock_group_tgservice(msg, data, target)
     return
   end
   local group_tgservice_lock = data[tostring(target)]['settings']['lock_tgservice']
-  if group_tgservice_lock == 'yes' then
+  if group_tgservice_lock == '✅' then
     local text = 'Tgservice is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_tgservice'] = 'yes'
+    data[tostring(target)]['settings']['lock_tgservice'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'Tgservice has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -756,11 +852,11 @@ local function unlock_group_tgservice(msg, data, target)
     return
   end
   local group_tgservice_lock = data[tostring(target)]['settings']['lock_tgservice']
-  if group_tgservice_lock == 'no' then
+  if group_tgservice_lock == '❌' then
     local text = 'TgService Is Not Locked!'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_tgservice'] = 'no'
+    data[tostring(target)]['settings']['lock_tgservice'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'Tgservice has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -772,11 +868,11 @@ local function lock_group_sticker(msg, data, target)
     return
   end
   local group_sticker_lock = data[tostring(target)]['settings']['lock_sticker']
-  if group_sticker_lock == 'yes' then
+  if group_sticker_lock == '✅' then
     local text = 'Sticker posting is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_sticker'] = 'yes'
+    data[tostring(target)]['settings']['lock_sticker'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'Sticker posting has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -788,11 +884,11 @@ local function unlock_group_sticker(msg, data, target)
     return
   end
   local group_sticker_lock = data[tostring(target)]['settings']['lock_sticker']
-  if group_sticker_lock == 'no' then
+  if group_sticker_lock == '❌' then
     local text = 'Sticker posting is already unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_sticker'] = 'no'
+    data[tostring(target)]['settings']['lock_sticker'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'Sticker posting has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -804,11 +900,11 @@ local function lock_group_contacts(msg, data, target)
     return
   end
   local group_contacts_lock = data[tostring(target)]['settings']['lock_contacts']
-  if group_contacts_lock == 'yes' then
+  if group_contacts_lock == '✅' then
     local text = 'Contact posting is already locked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_contacts'] = 'yes'
+    data[tostring(target)]['settings']['lock_contacts'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'Contact posting has been locked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -820,11 +916,11 @@ local function unlock_group_contacts(msg, data, target)
     return
   end
   local group_contacts_lock = data[tostring(target)]['settings']['lock_contacts']
-  if group_contacts_lock == 'no' then
+  if group_contacts_lock == '❌' then
     local text = 'Contact posting is already unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['lock_contacts'] = 'no'
+    data[tostring(target)]['settings']['lock_contacts'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'Contact posting has been unlocked'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -836,11 +932,11 @@ local function enable_strict_rules(msg, data, target)
     return
   end
   local group_strict_lock = data[tostring(target)]['settings']['strict']
-  if group_strict_lock == 'yes' then
+  if group_strict_lock == '✅' then
     local text = 'Settings are already strictly enforced'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['strict'] = 'yes'
+    data[tostring(target)]['settings']['strict'] = '✅'
     save_data(_config.moderation.data, data)
     local text = 'Settings will be strictly enforced'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -852,11 +948,11 @@ local function disable_strict_rules(msg, data, target)
     return
   end
   local group_strict_lock = data[tostring(target)]['settings']['strict']
-  if group_strict_lock == 'no' then
+  if group_strict_lock == '❌' then
     local text = 'Settings are not strictly enforced'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['strict'] = 'no'
+    data[tostring(target)]['settings']['strict'] = '❌'
     save_data(_config.moderation.data, data)
     local text = 'Settings will not be strictly enforced'
 	return reply_msg(msg.id, text, ok_cb, false)
@@ -899,11 +995,11 @@ local function set_public_membermod(msg, data, target)
 	data[tostring(target)]['long_id'] = msg.to.peer_id
 	save_data(_config.moderation.data, data)
   end
-  if group_public_lock == 'yes' then
+  if group_public_lock == '✅' then
     local text = 'Group is already public'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['public'] = 'yes'
+    data[tostring(target)]['settings']['public'] = '✅'
     save_data(_config.moderation.data, data)
   end
   local text = 'SuperGroup is now: public'
@@ -920,11 +1016,11 @@ local function unset_public_membermod(msg, data, target)
 	data[tostring(target)]['long_id'] = msg.to.peer_id
 	save_data(_config.moderation.data, data)
   end
-  if group_public_lock == 'no' then
+  if group_public_lock == '❌' then
     local text = 'Group is not public'
 	return reply_msg(msg.id, text, ok_cb, false)
   else
-    data[tostring(target)]['settings']['public'] = 'no'
+    data[tostring(target)]['settings']['public'] = '❌'
 	data[tostring(target)]['long_id'] = msg.to.long_id
     save_data(_config.moderation.data, data)
     local text = 'SuperGroup is now: not public'
@@ -946,88 +1042,103 @@ function show_supergroup_settingsmod(msg, target)
         	NUM_MSG_MAX = 5
       	end
     end
-	local bots_protection = "yes"
+	local bots_protection = "✅"
     if data[tostring(msg.to.id)]['settings']['lock_bots'] then
      bots_protection = data[tostring(msg.to.id)]['settings']['lock_bots']
     end
 	if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['public'] then
-			data[tostring(target)]['settings']['public'] = 'no'
+			data[tostring(target)]['settings']['public'] = '❌'
 		end
 	end
 	if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_rtl'] then
-			data[tostring(target)]['settings']['lock_rtl'] = 'no'
+			data[tostring(target)]['settings']['lock_rtl'] = '❌'
 		end
 end
       if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_tgservice'] then
-			data[tostring(target)]['settings']['lock_tgservice'] = 'no'
+			data[tostring(target)]['settings']['lock_tgservice'] = '❌'
 		end
 	end
 	if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_member'] then
-			data[tostring(target)]['settings']['lock_member'] = 'no'
+			data[tostring(target)]['settings']['lock_member'] = '❌'
 		end
 	end
 	if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_tags'] then
-			data[tostring(target)]['settings']['lock_tags'] = 'no'
+			data[tostring(target)]['settings']['lock_tags'] = '❌'
 		end
 end
 if data[tostring(target)]['settings'] then
-		if not data[tostring(target)]['settings']['lock_contacts'] then
-			data[tostring(target)]['settings']['lock_contacts'] = 'no'
+		if not data[tostring(target)]['settings']['lock_join'] then
+			data[tostring(target)]['settings']['lock_join'] = '❌'
 		end
 end
 if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_leave'] then
-			data[tostring(target)]['settings']['lock_leave'] = 'no'
-		end
-end
-if data[tostring(target)]['settings'] then
-		if not data[tostring(target)]['settings']['lock_english'] then
-			data[tostring(target)]['settings']['lock_english'] = 'no'
-		end
-end
-if data[tostring(target)]['settings'] then
-		if not data[tostring(target)]['settings']['lock_number'] then
-			data[tostring(target)]['settings']['lock_number'] = 'no'
+			data[tostring(target)]['settings']['lock_leave'] = '❌'
 		end
 end
 if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_all'] then
-			data[tostring(target)]['settings']['lock_all'] = 'no'
+			data[tostring(target)]['settings']['lock_all'] = '❌'
 		end
 end
 if data[tostring(target)]['settings'] then
-		if not data[tostring(target)]['settings']['lock_fwd'] then
-			data[tostring(target)]['settings']['lock_fwd'] = 'no'
+		if not data[tostring(target)]['settings']['lock_english'] then
+			data[tostring(target)]['settings']['lock_english'] = '❌'
+		end
+end
+if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_badword'] then
+			data[tostring(target)]['settings']['lock_badword'] = '❌'
+		end
+end
+if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_number'] then
+			data[tostring(target)]['settings']['lock_number'] = '❌'
+		end
+end
+if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_operator'] then
+			data[tostring(target)]['settings']['lock_operator'] = '❌'
 		end
 end
 if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_reply'] then
-			data[tostring(target)]['settings']['lock_reply'] = 'no'
+			data[tostring(target)]['settings']['lock_reply'] = '❌'
+		end
+end
+if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_contacts'] then
+			data[tostring(target)]['settings']['lock_contacts'] = '❌'
+		end
+end
+if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_fwd'] then
+			data[tostring(target)]['settings']['lock_fwd'] = '❌'
 		end
 end
       if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_emoji'] then
-			data[tostring(target)]['settings']['lock_emoji'] = 'no'
+			data[tostring(target)]['settings']['lock_emoji'] = '❌'
 		end
 	end
 	if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_username'] then
-			data[tostring(target)]['settings']['lock_username'] = 'no'
+			data[tostring(target)]['settings']['lock_username'] = '❌'
 		end
 	end
 	if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_media'] then
-			data[tostring(target)]['settings']['lock_media'] = 'no'
+			data[tostring(target)]['settings']['lock_media'] = '❌'
 		end
 	end
   local settings = data[tostring(target)]['settings']
   local chat_id = msg.to.id
-  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Lock links : "..settings.lock_link.."\n💠Lock flood: "..settings.flood.."\n💠Lock spam: "..settings.lock_spam.."\n💠Lock Tags : "..settings.lock_tags.."\n💠Lock Number: "..settings.lock_number.."\n💠Lock Forward : "..settings.lock_fwd.."\n💠Lock Reply : "..settings.lock_reply.."\n💠Lock Contacts: "..settings.lock_contacts.."\n💠Lock Emoji: "..settings.lock_emoji.."\n💠Lock Username : "..settings.lock_username.."\n💠Lock Media: "..settings.lock_media.."\n💠Lock Bots: "..settings.lock_bots.."\n💠Lock Leave: "..settings.lock_leave.."\n💠Lock English: "..settings.lock_english.."\n💠Lock Arabic: "..settings.lock_arabic.."\n💠Lock Member: "..settings.lock_member.."\n💠Lock RTL: "..settings.lock_rtl.."\n💠Lock Tgservice : "..settings.lock_tgservice.."\n💠Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Flood sensitivity : "..NUM_MSG_MAX.."\n💠Public: "..settings.public.."\n💠Strict settings: "..settings.strict.."\n💠Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
+  local text = "➖➖➖➖➖➖➖➖➖➖\n⚙SuperGroup settings⚙\n➖➖➖➖➖➖➖➖➖➖\n》Lock links : "..settings.lock_link.."\n》Lock flood: "..settings.flood.."\n》Lock spam: "..settings.lock_spam.."\n》Lock Tags : "..settings.lock_tags.."\n》Lock Reply : "..settings.lock_reply.."\n》Lock Forward : "..settings.lock_fwd.."\n》Lock Join : "..settings.lock_join.."\n》Lock Emoji: "..settings.lock_emoji.."\n》Lock Contacts: "..settings.lock_contacts.."\n》Lock Username : "..settings.lock_username.."\n》Lock Media: "..settings.lock_media.."\n》Lock Bots: "..settings.lock_bots.."\n》Lock Arabic: "..settings.lock_arabic.."\n》Lock Member: "..settings.lock_member.."\n》Lock RTL: "..settings.lock_rtl.."\n》Lock English: "..settings.lock_english.."\n》Lock Tgservice : "..settings.lock_tgservice.."\n》Lock sticker: "..settings.lock_sticker.."\n》Lock Operator: "..settings.lock_operator.."\n》Lock Number: "..settings.lock_number.."\n》Lock Badword: "..settings.lock_badword.."\n》Lock Leave: "..settings.lock_leave.."\n➖➖➖➖➖➖➖➖➖➖\n⚙MoreSettings⚙\n➖➖➖➖➖➖➖➖➖➖\n》Flood sensitivity : "..NUM_MSG_MAX.."\n》Public: "..settings.public.."\n》Strict settings: "..settings.strict.."\n》Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n⚙MuteSettings⚙\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy >>DRAGON<<\nAll rights reserved"
   return reply_msg(msg.id, text, ok_cb, false)
 end
 
@@ -1739,32 +1850,8 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested ID for: @"..username)
 				resolve_username(username,  callbackres, cbres_extra)
 			else
-				userrank = "Member"
-				if is_sudo(msg) then
-						userrank = "Sudo"
-				elseif is_owner(msg) then
-						userrank = "Owner"
-				elseif is_admin1(msg) then
-						userrank = "Admin"
-				elseif is_momod(msg) then
-						userrank = "Moderator"
-				end
-				number = "+98"..string.sub(msg.from.phone, 3)
-				if string.sub(msg.from.phone, 0,4) == '9891' then
-					number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : ir-mci"
-				elseif string.sub(msg.from.phone, 0,5) == '98932' then
-					number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Taliya"
-				elseif string.sub(msg.from.phone, 0,4) == '9893' then
-					number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
-				elseif string.sub(msg.from.phone, 0,4) == '9890' then
-					number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
-				elseif string.sub(msg.from.phone, 0,4) == '9892' then
-					number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Rightel"
-				else
-					number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : another"
-				end
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
-				return "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..(number or "----").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
+				return "SuperGroup ID for " ..string.gsub(msg.to.print_name, "_", " ").. ":\n\n"..msg.to.id
 			end
 		end
 
@@ -2146,33 +2233,56 @@ local function run(msg, matches)
 
 		if matches[1] == 'lock' and is_momod(msg) then
 			local target = msg.to.id
-			if matches[2] == 'all' then
-		local safemode ={
-			lock_group_tags(msg, data, target),
-		lock_group_spam(msg, data, target),
-		lock_group_links(msg, data, target),
-		lock_group_flood(msg, data, target),
-		lock_group_arabic(msg, data, target),
-		lock_group_membermod(msg, data, target),
-		lock_group_rtl(msg, data, target),
-		lock_group_tgservice(msg, data, target),
-		lock_group_sticker(msg, data, target),
-		lock_group_contacts(msg, data, target),
-		lock_group_reply(msg, data, target),
-		lock_group_fwd(msg, data, target),
-		lock_group_english(msg, data, target),
-		lock_group_emoji(msg, data, target),
-		lock_group_username(msg, data, target),
-		lock_group_media(msg, data, target),
-		lock_group_leave(msg, data, target),
-		lock_group_bots(msg, data, target),
-		lock_group_number(msg, data, target),
-				}
-				return lock_group_all(msg, data, target), safemode
-			end
 			if matches[2] == 'links' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked link posting ")
 				return lock_group_links(msg, data, target)
+			end
+			if matches[2] == 'all' then
+			local safemode ={
+			 lock_group_links(msg, data, target),
+	lock_group_tags(msg, data, target),
+	lock_group_spam(msg, data, target),
+	lock_group_flood(msg, data, target),
+	lock_group_arabic(msg, data, target),
+	lock_group_membermod(msg, data, target),
+	lock_group_rtl(msg, data, target),
+	lock_group_tgservice(msg, data, target),
+	lock_group_sticker(msg, data, target),
+	lock_group_contacts(msg, data, target),
+	lock_group_english(msg, data, target),
+	lock_group_fwd(msg, data, target),
+	lock_group_reply(msg, data, target),
+	lock_group_join(msg, data, target),
+	lock_group_emoji(msg, data, target),
+	lock_group_username(msg, data, target),
+	lock_group_badword(msg, data, target),
+	lock_group_media(msg, data, target),
+	lock_group_leave(msg, data, target),
+	lock_group_bots(msg, data, target),
+	lock_group_operator(msg, data, target),
+	lock_group_number(msg, data, target),
+	  }
+				return lock_group_all(msg, data, target), safemode
+			end
+			if matches[2] == 'tags' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked tags posting ")
+				return lock_group_tags(msg, data, target)
+			end
+			if matches[2] == 'leave' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked leave ")
+				return lock_group_leave(msg, data, target)
+			end
+			if matches[2] == 'operator' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked operator posting ")
+				return lock_group_operator(msg, data, target)
+			end
+			if matches[2] == 'badword' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked badword posting ")
+				return lock_group_badword(msg, data, target)
+			end
+			if matches[2] == 'number' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked number posting ")
+				return lock_group_number(msg, data, target)
 			end
 			if matches[2] == 'reply' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked reply posting ")
@@ -2182,21 +2292,9 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked fwd posting ")
 				return lock_group_fwd(msg, data, target)
 			end
-			if matches[2] == 'leave' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked leave ")
-				return lock_group_leave(msg, data, target)
-			end
-			if matches[2] == 'number' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked number ")
-				return lock_group_number(msg, data, target)
-			end
-			if matches[2] == 'english' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked english ")
-				return lock_group_english(msg, data, target)
-			end
-			if matches[2] == 'tags' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked tags posting ")
-				return lock_group_tags(msg, data, target)
+			if matches[2] == 'join' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked join ")
+				return lock_group_join(msg, data, target)
 			end
 			if matches[2] == 'emoji' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked emoji posting ")
@@ -2234,6 +2332,10 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked rtl chars. in names")
 				return lock_group_rtl(msg, data, target)
 			end
+			if matches[2]:lower() == 'english' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked english chars. in names")
+				return lock_group_english(msg, data, target)
+			end
 			if matches[2] == 'tgservice' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked Tgservice Actions")
 				return lock_group_tgservice(msg, data, target)
@@ -2254,57 +2356,68 @@ local function run(msg, matches)
 
 		if matches[1] == 'unlock' and is_momod(msg) then
 			local target = msg.to.id
-			if matches[2] == 'all' then
-		local dsafemode ={
-			unlock_group_tags(msg, data, target),
-		unlock_group_spam(msg, data, target),
-		unlock_group_links(msg, data, target),
-		unlock_group_flood(msg, data, target),
-		unlock_group_arabic(msg, data, target),
-		unlock_group_membermod(msg, data, target),
-		unlock_group_rtl(msg, data, target),
-		unlock_group_tgservice(msg, data, target),
-		unlock_group_sticker(msg, data, target),
-		unlock_group_contacts(msg, data, target),
-		unlock_group_reply(msg, data, target),
-		unlock_group_fwd(msg, data, target),
-		unlock_group_english(msg, data, target),
-		unlock_group_emoji(msg, data, target),
-		unlock_group_username(msg, data, target),
-		unlock_group_media(msg, data, target),
-		unlock_group_leave(msg, data, target),
-		unlock_group_bots(msg, data, target),
-		unlock_group_number(msg, data, target),
-				}
-				return unlock_group_all(msg, data, target), dsafemode
-			end
 			if matches[2] == 'links' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked link posting")
 				return unlock_group_links(msg, data, target)
 			end
-			if matches[2] == 'reply' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked reply posting")
-				return unlock_group_reply(msg, data, target)
-			end
-			if matches[2] == 'fwd' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked fwd posting")
-				return unlock_group_fwd(msg, data, target)
-			end
-			if matches[2] == 'leave' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked leave")
-				return unlock_group_leave(msg, data, target)
-			end
-			if matches[2] == 'number' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked number")
-				return unlock_group_number(msg, data, target)
-			end
-			if matches[2] == 'english' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked english")
-				return unlock_group_english(msg, data, target)
+			if matches[2] == 'all' then
+			local dsafemode ={
+			 unlock_group_links(msg, data, target),
+	unlock_group_tags(msg, data, target),
+	unlock_group_spam(msg, data, target),
+	unlock_group_flood(msg, data, target),
+	unlock_group_arabic(msg, data, target),
+	unlock_group_membermod(msg, data, target),
+	unlock_group_rtl(msg, data, target),
+	unlock_group_tgservice(msg, data, target),
+	unlock_group_sticker(msg, data, target),
+	unlock_group_contacts(msg, data, target),
+	unlock_group_english(msg, data, target),
+	unlock_group_fwd(msg, data, target),
+	unlock_group_reply(msg, data, target),
+	unlock_group_join(msg, data, target),
+	unlock_group_emoji(msg, data, target),
+	unlock_group_username(msg, data, target),
+	unlock_group_badword(msg, data, target),
+	unlock_group_media(msg, data, target),
+	unlock_group_leave(msg, data, target),
+	unlock_group_bots(msg, data, target),
+	unlock_group_operator(msg, data, target),
+	unlock_group_number(msg, data, target),
+	  }
+				return unlock_group_all(msg, data, target), dsafemode
 			end
 			if matches[2] == 'tags' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked tags posting ")
 				return unlock_group_tags(msg, data, target)
+			end
+			if matches[2] == 'leave' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked leave ")
+				return unlock_group_leave(msg, data, target)
+			end
+			if matches[2] == 'operator' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked operator posting")
+				return unlock_group_operator(msg, data, target)
+			end
+			if matches[2] == 'badword' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked badword posting")
+				return unlock_group_badword(msg, data, target)
+			end
+			if matches[2] == 'number' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked number posting")
+				return unlock_group_number(msg, data, target)
+			end
+			if matches[2] == 'reply' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked reply posting ")
+				return unlock_group_reply(msg, data, target)
+			end
+			if matches[2] == 'fwd' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked fwd posting ")
+				return unlock_group_fwd(msg, data, target)
+			end
+			if matches[2] == 'join' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked join ")
+				return unlock_group_join(msg, data, target)
 			end
 			if matches[2] == 'emoji' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked emoji posting ")
@@ -2342,6 +2455,10 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked RTL chars. in names")
 				return unlock_group_rtl(msg, data, target)
 			end
+			if matches[2]:lower() == 'english' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked english chars. in names")
+				return unlock_group_english(msg, data, target)
+			end
 				if matches[2] == 'tgservice' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked tgservice actions")
 				return unlock_group_tgservice(msg, data, target)
@@ -2375,11 +2492,11 @@ local function run(msg, matches)
 		end
 		if matches[1] == 'public' and is_momod(msg) then
 			local target = msg.to.id
-			if matches[2] == 'yes' then
+			if matches[2] == '✅' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] set group to: public")
 				return set_public_membermod(msg, data, target)
 			end
-			if matches[2] == 'no' then
+			if matches[2] == '❌' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: not public")
 				return unset_public_membermod(msg, data, target)
 			end
