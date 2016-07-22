@@ -1749,7 +1749,7 @@ local function run(msg, matches)
 				elseif is_momod(msg) then
 						userrank = "Moderator"
 				end
-				number = "+"..string.sub(msg.from.phone, 3)
+				number = "+98"..string.sub(msg.from.phone, 3)
 				if string.sub(msg.from.phone, 0,4) == '9891' then
 					number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : ir-mci"
 				elseif string.sub(msg.from.phone, 0,5) == '98932' then
