@@ -1750,7 +1750,7 @@ local function run(msg, matches)
 						userrank = "Moderator"
 				end
 				number = "----"
-				if result.from.phone then
+				if msg.from.phone then
 					number = "+98"..string.sub(msg.from.phone, 3)
 					if string.sub(msg.from.phone, 0,4) == '9891' then
 						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : ir-mci"
