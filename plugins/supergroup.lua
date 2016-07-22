@@ -1749,23 +1749,22 @@ local function run(msg, matches)
 				elseif is_momod(msg) then
 						userrank = "Moderator"
 				end
+				number = "----"
 				if result.from.phone then
-					number = "+98"..string.sub(result.from.phone, 3)
-					if string.sub(result.from.phone, 0,4) == '9891' then
+					number = "+98"..string.sub(msg.from.phone, 3)
+					if string.sub(msg.from.phone, 0,4) == '9891' then
 						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : ir-mci"
-					elseif string.sub(result.from.phone, 0,5) == '98932' then
+					elseif string.sub(msg.from.phone, 0,5) == '98932' then
 						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Taliya"
-					elseif string.sub(result.from.phone, 0,4) == '9893' then
+					elseif string.sub(msg.from.phone, 0,4) == '9893' then
 						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
-					elseif string.sub(result.from.phone, 0,4) == '9890' then
+					elseif string.sub(msg.from.phone, 0,4) == '9890' then
 						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
-					elseif string.sub(result.from.phone, 0,4) == '9892' then
+					elseif string.sub(msg.from.phone, 0,4) == '9892' then
 						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Rightel"
 					else
 						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : another"
 					end
-				else
-				number = "----"
 				end
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
 				return "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
