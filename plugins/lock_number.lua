@@ -16,7 +16,15 @@ if msg.to.type == 'channel' and not is_momod(msg) then
 end
 
 return {patterns = {
-      "[1234567890]"
+      "$",
+	  "%",
+	  "*",
+	  "[123456789]",
+	  "%[(photo)%]",
+	  "%[(document)%]",
+	  "%[(video)%]",
+	  "%[(audio)%]",
+	  "%[(unsupported)%]"
 }, run = run}
 
 --By cyber
