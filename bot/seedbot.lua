@@ -241,6 +241,7 @@ function create_config( )
     "plugins",
     "lock_bots",
     "lock_number",
+    "lock_fwd",
     "lock_leave",
     "lock_english",
     "lock_emoji",
