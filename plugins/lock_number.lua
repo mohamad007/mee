@@ -6,25 +6,15 @@ local function run(msg)
 
 
 if msg.to.type == 'channel' and not is_momod(msg) then
-	if msg.text:match("[1234567890]") or (msg.media and msg.media.title:match("[1234567890]")) or (msg.media and msg.media.description:match("[1234567890]")) or (msg.media and msg.media.caption:match("[1234567890]")) or (msg.fwd_from and msg.fwd_from.title:match("[1234567890]")) then
-			delete_msg(msg.id,ok_cb,false)
+	delete_msg(msg.id,ok_cb,false)
 
-			return 
-		 end
-	  end
+        return 
+      end
    end
 end
 
 return {patterns = {
-      "$",
-	  "%",
-	  "*",
-	  "[123456789]",
-	  "%[(photo)%]",
-	  "%[(document)%]",
-	  "%[(video)%]",
-	  "%[(audio)%]",
-	  "%[(unsupported)%]"
+    "[0123456789٠١٢٣٤٥٦٧٨٩]"
 }, run = run}
 
---By cyber
+--By DRAGON
