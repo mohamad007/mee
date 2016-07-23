@@ -1772,7 +1772,7 @@ local function run(msg, matches)
 				local um_hash = 'msgs:'..msg.from.id..':'..msg.to.id
 				user_info.msgs = tonumber(redis:get(um_hash) or 0)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
-				return "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\nTotalMessage"..user_info.msgs.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
+				return "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\n💢TotalMessage : "..user_info.msgs.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
 			end
 		end
 
