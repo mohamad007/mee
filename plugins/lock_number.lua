@@ -2,47 +2,20 @@ local function run(msg)
 
     local data = load_data(_config.moderation.data)
 
-    if data[tostring(msg.to.id)]['settings']['lock_number'] == 'yes' then
+     if data[tostring(msg.to.id)]['settings']['lock_number'] == 'yes' then
 
 
-		if msg.to.type == 'channel' and not is_momod(msg) then
-			if msg.text then
-				if msg.text:match("[0123456789]") then
-					delete_msg(msg.id,ok_cb,false)
-				end
-			end
-			if msg.media then
-				if msg.media.title then
-					if msg.media.title:match("[0123456789]") and lock_number == 'yes' then
-						delete_msg(msg.id,ok_cb,false)
-					end
-				end
-				if msg.media.description then
-					if msg.media.description:match("[0123456789]") and lock_number == 'yes' then
-						delete_msg(msg.id,ok_cb,false)
-					end
-				end
-				if msg.media.caption then
-					if msg.media.caption:match("[0123456789]") and lock_number == 'yes' then
-						delete_msg(msg.id,ok_cb,false)
-					end
-				end
-			end
-			if msg.fwd_from.title then
-				if msg.fwd_from.title:match("[0123456789]") and lock_number == 'yes' then
-					delete_msg(msg.id,ok_cb,false)
-				end
-		    end
-	  end
+if msg.to.type == 'channel' and not is_momod(msg) then
+	delete_msg(msg.id,ok_cb,false)
+
+        return 
+      end
    end
 end
 
 return {patterns = {
-    "[0123456789]",
-	"%[(photo)%]",
-	"%[(document)%]",
-	"%[(video)%]",
-	"%[(audio)%]"
+      "[1234567890٠١٢٣٤٥٦٧٨٩]"
 }, run = run}
 
 --By Cyber
+
