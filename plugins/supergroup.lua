@@ -1742,10 +1742,10 @@ local function run(msg, matches)
 				userrank = "Member"
 				if is_sudo(msg) then
 						userrank = "Sudo"
-				elseif is_owner(msg) then
-						userrank = "Owner"
 				elseif is_admin1(msg) then
 						userrank = "Admin"
+				elseif is_owner(msg) then
+						userrank = "Owner"
 				elseif is_momod(msg) then
 						userrank = "Moderator"
 				end
