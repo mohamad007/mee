@@ -14,7 +14,7 @@ if msg.to.type == 'channel' and not is_momod(msg) then
 end
 
 return {patterns = {
-      "[1234567890٠١٢٣٤٥٦٧٨٩]"
+      "[1234567890]"
 }, run = run}
 
 --By Cyber
