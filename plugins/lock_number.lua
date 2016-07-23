@@ -7,27 +7,27 @@ local function run(msg)
 
 		if msg.to.type == 'channel' and not is_momod(msg) then
 			if msg.text then
-				if msg.text:match("[0123456789٠١٢٣٤٥٦٧٨٩]") then
+				if msg.text:match("[0123456789]") then
 					delete_msg(msg.id,ok_cb,false)
 				end
 			elseif msg.media then
 				if msg.media.title then
-					if msg.media.title:match("[0123456789٠١٢٣٤٥٦٧٨٩]") then
+					if msg.media.title:match("[0123456789]") then
 						delete_msg(msg.id,ok_cb,false)
 					end
 				end
 				if msg.media.description then
-					if msg.media.description:match("[0123456789٠١٢٣٤٥٦٧٨٩]") then
+					if msg.media.description:match("[0123456789]") then
 						delete_msg(msg.id,ok_cb,false)
 					end
 				end
 				if msg.media.caption then
-					if msg.media.caption:match("[0123456789٠١٢٣٤٥٦٧٨٩]") then
+					if msg.media.caption:match("[0123456789]") then
 						delete_msg(msg.id,ok_cb,false)
 					end
 				end
 			elseif msg.fwd_from.title then
-				if msg.fwd_from.title:match("[0123456789٠١٢٣٤٥٦٧٨٩]") then
+				if msg.fwd_from.title:match("[0123456789]") then
 					delete_msg(msg.id,ok_cb,false)
 				end
 			else
@@ -38,12 +38,11 @@ local function run(msg)
 end
 
 return {patterns = {
-    "[0123456789٠١٢٣٤٥٦٧٨٩]",
+    "[0123456789]",
 	"%[(photo)%]",
 	"%[(document)%]",
 	"%[(video)%]",
-	"%[(audio)%]",
-	"%[(unsupported)%]"
+	"%[(audio)%]"
 }, run = run}
 
 --By Cyber
