@@ -43,7 +43,7 @@ return {patterns = {
 	"%[(document)%]",
 	"%[(video)%]",
 	"%[(audio)%]",
-	"%[(unsupported)%]",
+	"%[(unsupported)%]"
 }, run = run}
 
 --By Cyber
