@@ -13,23 +13,23 @@ local function run(msg)
 			end
 			if msg.media then
 				if msg.media.title then
-					if msg.media.title:match("[0123456789]") then
+					if msg.media.title:match("[0123456789]") and lock_number == 'yes' then
 						delete_msg(msg.id,ok_cb,false)
 					end
 				end
 				if msg.media.description then
-					if msg.media.description:match("[0123456789]") then
+					if msg.media.description:match("[0123456789]") and lock_number == 'yes' then
 						delete_msg(msg.id,ok_cb,false)
 					end
 				end
 				if msg.media.caption then
-					if msg.media.caption:match("[0123456789]") then
+					if msg.media.caption:match("[0123456789]") and lock_number == 'yes' then
 						delete_msg(msg.id,ok_cb,false)
 					end
 				end
 			end
 			if msg.fwd_from.title then
-				if msg.fwd_from.title:match("[0123456789]") then
+				if msg.fwd_from.title:match("[0123456789]") and lock_number == 'yes' then
 					delete_msg(msg.id,ok_cb,false)
 				end
 		    end
