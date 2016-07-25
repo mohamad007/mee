@@ -236,7 +236,6 @@ function create_config( )
     "sticker",
     "photo",
     "Bye",
-    "arg",
     "cpu",
     "link",
     "setwlc",
