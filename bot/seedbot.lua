@@ -237,6 +237,7 @@ function create_config( )
     "photo",
     "Bye",
     "arg",
+    "cpu",
     "link",
     "setwlc",
     "delplug",
