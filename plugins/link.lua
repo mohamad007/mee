@@ -1,7 +1,7 @@
 do
 
 function run(msg, matches)
-    if is_sudo(msg) then
+    if is_sudo(msg) and not matches[3] then
 		local data = load_data(_config.moderation.data)
 		local text1 = matches[2]
 		local group_link = data[tostring(text1)]['settings']['set_link']
