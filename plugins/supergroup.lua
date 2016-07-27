@@ -2264,7 +2264,7 @@ local function run(msg, matches)
 			local target = msg.to.id
 			if matches[2] == 'all' then
 		local dsafemode ={
-			unlock_group_tags(msg, data, target),
+		unlock_group_tags(msg, data, target),
 		unlock_group_spam(msg, data, target),
 		unlock_group_links(msg, data, target),
 		unlock_group_flood(msg, data, target),
@@ -2283,7 +2283,7 @@ local function run(msg, matches)
 		unlock_group_leave(msg, data, target),
 		unlock_group_bots(msg, data, target),
 		unlock_group_number(msg, data, target),
-				}
+		}
 				return unlock_group_all(msg, data, target), dsafemode
 			end
 			if matches[2] == 'links' then
