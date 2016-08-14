@@ -1776,18 +1776,7 @@ local function run(msg, matches)
 				local um_hash = 'msgs:'..msg.from.id..':'..msg.to.id
 				user_info.msgs = tonumber(redis:get(um_hash) or 0)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
-				local text5 = "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\n💢TotalMessage : "..user_info.msgs.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
-				local text5 = string.gsub(tetx5,'0','0⃣')
-				local text5 = string.gsub(tetx5,'1','1⃣')
-				local text5 = string.gsub(tetx5,'2','2⃣')
-				local text5 = string.gsub(tetx5,'3','3⃣')
-				local text5 = string.gsub(tetx5,'4','4⃣')
-				local text5 = string.gsub(tetx5,'5','5⃣')
-				local text5 = string.gsub(tetx5,'6','6⃣')
-				local text5 = string.gsub(tetx5,'7','7⃣')
-				local text5 = string.gsub(tetx5,'8','8⃣')
-				local text5 = string.gsub(tetx5,'9','9⃣')
-				return text5
+				return "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\n💢TotalMessage : "..user_info.msgs.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
 			end
 		end
 
