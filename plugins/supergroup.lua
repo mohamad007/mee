@@ -1026,12 +1026,10 @@ end
 		end
 	end
   local settings = data[tostring(target)]['settings']
-  local chat_mute = mutes_list(msg.to.id)
-  local chat_mute = string.gsub(chat_mute,'yes','✅')
-  local chat_mute = string.gsub(chat_mute,'no','❌')
-  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Lock links : "..settings.lock_link.."\n💠Lock flood: "..settings.flood.."\n💠Lock spam: "..settings.lock_spam.."\n💠Lock Tags : "..settings.lock_tags.."\n💠Lock Number: "..settings.lock_number.."\n💠Lock Forward : "..settings.lock_fwd.."\n💠Lock Reply : "..settings.lock_reply.."\n💠Lock Contacts: "..settings.lock_contacts.."\n💠Lock Emoji: "..settings.lock_emoji.."\n💠Lock Username : "..settings.lock_username.."\n💠Lock Media: "..settings.lock_media.."\n💠Lock Bots: "..settings.lock_bots.."\n💠Lock Leave: "..settings.lock_leave.."\n💠Lock English: "..settings.lock_english.."\n💠Lock Arabic: "..settings.lock_arabic.."\n💠Lock Member: "..settings.lock_member.."\n💠Lock RTL: "..settings.lock_rtl.."\n💠Lock Tgservice : "..settings.lock_tgservice.."\n💠Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Flood sensitivity : "..NUM_MSG_MAX.."\n💠Public: "..settings.public.."\n💠Strict settings: "..settings.strict.."\n💠Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..chat_mute.."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
-  local text = string.gsub(text,'yes','🔒')
-  local text = string.gsub(text,'no','🔓')
+  local chat_id = msg.to.id
+  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Lock links : "..settings.lock_link.."\n💠Lock flood: "..settings.flood.."\n💠Lock spam: "..settings.lock_spam.."\n💠Lock Tags : "..settings.lock_tags.."\n💠Lock Number: "..settings.lock_number.."\n💠Lock Forward : "..settings.lock_fwd.."\n💠Lock Reply : "..settings.lock_reply.."\n💠Lock Contacts: "..settings.lock_contacts.."\n💠Lock Emoji: "..settings.lock_emoji.."\n💠Lock Username : "..settings.lock_username.."\n💠Lock Media: "..settings.lock_media.."\n💠Lock Bots: "..settings.lock_bots.."\n💠Lock Leave: "..settings.lock_leave.."\n💠Lock English: "..settings.lock_english.."\n💠Lock Arabic: "..settings.lock_arabic.."\n💠Lock Member: "..settings.lock_member.."\n💠Lock RTL: "..settings.lock_rtl.."\n💠Lock Tgservice : "..settings.lock_tgservice.."\n💠Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Flood sensitivity : "..NUM_MSG_MAX.."\n💠Public: "..settings.public.."\n💠Strict settings: "..settings.strict.."\n💠Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
+  local text = string.gsub(text,'yes','✅')
+  local text = string.gsub(text,'no','❌')
   return reply_msg(msg.id, text, ok_cb, false)
 end
 
@@ -1743,40 +1741,77 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested ID for: @"..username)
 				resolve_username(username,  callbackres, cbres_extra)
 			else
-				userrank = "Member"
-				if is_sudo(msg) then
-						userrank = "Sudo"
-				elseif is_admin1(msg) then
-						userrank = "Admin"
-				elseif is_owner(msg) then
-						userrank = "Owner"
-				elseif is_momod(msg) then
-						userrank = "Moderator"
-				end
-				number = "----"
-				if msg.from.phone then
-					number = "+98"..string.sub(msg.from.phone, 3)
-					if string.sub(msg.from.phone, 0,4) == '9891' then
-						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : ir-mci"
-					elseif string.sub(msg.from.phone, 0,5) == '98932' then
-						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Taliya"
-					elseif string.sub(msg.from.phone, 0,4) == '9893' then
-						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
-					elseif string.sub(msg.from.phone, 0,4) == '9890' then
-						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
-					elseif string.sub(msg.from.phone, 0,4) == '9892' then
-						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Rightel"
-					else
-						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : another"
+				if result.from.id then
+					userrank = "Member"
+					if is_sudo(result) then
+							userrank = "Sudo"
+					elseif is_admin1(result) then
+							userrank = "Admin"
+					elseif is_owner(result) then
+							userrank = "Owner"
+					elseif is_momod(result) then
+							userrank = "Moderator"
 					end
+					number = "----"
+					if result.from.phone then
+						number = "+98"..string.sub(result.from.phone, 3)
+						if string.sub(result.from.phone, 0,4) == '9891' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : ir-mci"
+						elseif string.sub(result.from.phone, 0,5) == '98932' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Taliya"
+						elseif string.sub(result.from.phone, 0,4) == '9893' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
+						elseif string.sub(result.from.phone, 0,4) == '9890' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
+						elseif string.sub(result.from.phone, 0,4) == '9892' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Rightel"
+						else
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Other"
+						end
+					end
+					local user_info = {}
+					local uhash = 'user:'..result.from.id
+					local user = redis:hgetall(uhash)
+					local um_hash = 'msgs:'..result.from.id..':'..result.to.id
+					user_info.msgs = tonumber(redis:get(um_hash) or 0)
+					savelog(result.to.id, name_log.." ["..result.from.id.."] requested SuperGroup ID")
+					return "💢FirstName : "..(result.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(result.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(result.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..result.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\n💢TotalMessage : "..user_info.msgs.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(result.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..result.to.id
+				else
+					userrank = "Member"
+					if is_sudo(msg) then
+							userrank = "Sudo"
+					elseif is_admin1(msg) then
+							userrank = "Admin"
+					elseif is_owner(msg) then
+							userrank = "Owner"
+					elseif is_momod(msg) then
+							userrank = "Moderator"
+					end
+					number = "----"
+					if msg.from.phone then
+						number = "+98"..string.sub(msg.from.phone, 3)
+						if string.sub(msg.from.phone, 0,4) == '9891' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : ir-mci"
+						elseif string.sub(msg.from.phone, 0,5) == '98932' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Taliya"
+						elseif string.sub(msg.from.phone, 0,4) == '9893' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
+						elseif string.sub(msg.from.phone, 0,4) == '9890' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Irancell"
+						elseif string.sub(msg.from.phone, 0,4) == '9892' then
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : Rightel"
+						else
+							number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : another"
+						end
+					end
+					local user_info = {}
+					local uhash = 'user:'..msg.from.id
+					local user = redis:hgetall(uhash)
+					local um_hash = 'msgs:'..msg.from.id..':'..msg.to.id
+					user_info.msgs = tonumber(redis:get(um_hash) or 0)
+					savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
+					return "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\n💢TotalMessage : "..user_info.msgs.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
 				end
-				local user_info = {}
-				local uhash = 'user:'..msg.from.id
-				local user = redis:hgetall(uhash)
-				local um_hash = 'msgs:'..msg.from.id..':'..msg.to.id
-				user_info.msgs = tonumber(redis:get(um_hash) or 0)
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
-				return "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\n💢TotalMessage : "..user_info.msgs.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
 			end
 		end
 
