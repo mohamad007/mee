@@ -7,16 +7,6 @@ local function run(msg)
 			end
 		end
 		if msg.media and not is_momod(msg) then
-			if msg.media.title then
-				if msg.media.title:match("[0123456789]") then
-					delete_msg(msg.id,ok_cb,false)
-				end
-			end
-			if msg.media.description then
-				if msg.media.description:match("[0123456789]") then
-					delete_msg(msg.id,ok_cb,false)
-				end
-			end
 			if msg.media.caption then
 				if msg.media.caption:match("[0123456789]") then
 					delete_msg(msg.id,ok_cb,false)
