@@ -252,6 +252,38 @@ local function unlock_group_reply(msg, data, target)
   end
 end
 
+local function lock_group_join(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_join_lock = data[tostring(target)]['settings']['lock_join']
+  if group_join_lock == 'yes' then
+    local text = 'join is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_join'] = 'yes'
+    save_data(_config.moderation.data, data)
+    local text = 'join has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_join(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_join_lock = data[tostring(target)]['settings']['lock_join']
+  if group_join_lock == 'no' then
+    local text = 'join is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_join'] = 'no'
+    save_data(_config.moderation.data, data)
+    local text = 'join has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
 local function lock_group_fwd(msg, data, target)
   if not is_momod(msg) then
     return
@@ -981,6 +1013,11 @@ if data[tostring(target)]['settings'] then
 		end
 end
 if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_join'] then
+			data[tostring(target)]['settings']['lock_join'] = 'no'
+		end
+end
+if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_leave'] then
 			data[tostring(target)]['settings']['lock_leave'] = 'no'
 		end
@@ -1027,7 +1064,7 @@ end
 	end
   local settings = data[tostring(target)]['settings']
   local chat_id = msg.to.id
-  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Lock links : "..settings.lock_link.."\n💠Lock flood: "..settings.flood.."\n💠Lock spam: "..settings.lock_spam.."\n💠Lock Tags : "..settings.lock_tags.."\n💠Lock Number: "..settings.lock_number.."\n💠Lock Forward : "..settings.lock_fwd.."\n💠Lock Reply : "..settings.lock_reply.."\n💠Lock Contacts: "..settings.lock_contacts.."\n💠Lock Emoji: "..settings.lock_emoji.."\n💠Lock Username : "..settings.lock_username.."\n💠Lock Media: "..settings.lock_media.."\n💠Lock Bots: "..settings.lock_bots.."\n💠Lock Leave: "..settings.lock_leave.."\n💠Lock English: "..settings.lock_english.."\n💠Lock Arabic: "..settings.lock_arabic.."\n💠Lock Member: "..settings.lock_member.."\n💠Lock RTL: "..settings.lock_rtl.."\n💠Lock Tgservice : "..settings.lock_tgservice.."\n💠Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n💠Flood sensitivity : "..NUM_MSG_MAX.."\n💠Public: "..settings.public.."\n💠Strict settings: "..settings.strict.."\n💠Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
+  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n🔶Lock links : "..settings.lock_link.."\n🔶Lock flood: "..settings.flood.."\n🔶Lock spam: "..settings.lock_spam.."\n🔶Lock Tags : "..settings.lock_tags.."\n🔶Lock Number: "..settings.lock_number.."\n🔶Lock Forward : "..settings.lock_fwd.."\n🔶Lock Reply : "..settings.lock_reply.."\n🔶Lock Contacts: "..settings.lock_contacts.."\n🔶Lock Emoji: "..settings.lock_emoji.."\n🔶Lock Username : "..settings.lock_username.."\n🔶Lock Media: "..settings.lock_media.."\n🔶Lock Bots: "..settings.lock_bots.."\n🔶Lock Leave: "..settings.lock_leave.."\n🔶Lock English: "..settings.lock_english.."\n🔶Lock Arabic: "..settings.lock_arabic.."\n🔶Lock Join: "..settings.lock_join.."\n🔶Lock Member: "..settings.lock_member.."\n🔶Lock RTL: "..settings.lock_rtl.."\n🔶Lock Tgservice : "..settings.lock_tgservice.."\n🔶Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n🔶Flood sensitivity : "..NUM_MSG_MAX.."\n🔶Public: "..settings.public.."\n🔶Strict settings: "..settings.strict.."\n🔶Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
   local text = string.gsub(text,'yes','✅')
   local text = string.gsub(text,'no','❌')
   return reply_msg(msg.id, text, ok_cb, false)
@@ -1773,6 +1810,16 @@ local function run(msg, matches)
 				local user = redis:hgetall(uhash)
 				local um_hash = 'msgs:'..msg.from.id..':'..msg.to.id
 				user_info.msgs = tonumber(redis:get(um_hash) or 0)
+				user_info.msgs = string.gsub(user_info.msgs,'1','1⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'2','2⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'3','3⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'4','4⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'5','5⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'6','6⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'7','7⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'8','8⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'9','9⃣')
+				user_info.msgs = string.gsub(user_info.msgs,'0','0⃣')
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
 				return "💢FirstName : "..(msg.from.first_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢LastName : "..(msg.from.last_name or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢UserName :@"..(msg.from.username or "---").."\n➖➖➖➖➖➖➖➖➖➖\n💢Rank : "..userrank.."\n➖➖➖➖➖➖➖➖➖➖\n💢ID : "..msg.from.id.."\n➖➖➖➖➖➖➖➖➖➖\n💢PhoneNumber : "..number.."\n➖➖➖➖➖➖➖➖➖➖\n💢TotalMessage : "..user_info.msgs.."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupName : "..string.gsub(msg.to.print_name, "_", " ").."\n➖➖➖➖➖➖➖➖➖➖\n💢GroupID : "..msg.to.id
 			end
@@ -2161,6 +2208,7 @@ local function run(msg, matches)
 			lock_group_tags(msg, data, target),
 		lock_group_spam(msg, data, target),
 		lock_group_links(msg, data, target),
+		lock_group_join(msg, data, target),
 		lock_group_flood(msg, data, target),
 		lock_group_arabic(msg, data, target),
 		lock_group_membermod(msg, data, target),
@@ -2195,6 +2243,10 @@ local function run(msg, matches)
 			if matches[2] == 'leave' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked leave ")
 				return lock_group_leave(msg, data, target)
+			end
+			if matches[2] == 'join' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked join ")
+				return lock_group_join(msg, data, target)
 			end
 			if matches[2] == 'number' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked number ")
@@ -2267,6 +2319,7 @@ local function run(msg, matches)
 			if matches[2] == 'all' then
 		local dsafemode ={
 		unlock_group_tags(msg, data, target),
+		unlock_group_join(msg, data, target),
 		unlock_group_spam(msg, data, target),
 		unlock_group_links(msg, data, target),
 		unlock_group_flood(msg, data, target),
@@ -2303,6 +2356,10 @@ local function run(msg, matches)
 			if matches[2] == 'leave' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked leave")
 				return unlock_group_leave(msg, data, target)
+			end
+			if matches[2] == 'join' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked join")
+				return unlock_group_join(msg, data, target)
 			end
 			if matches[2] == 'number' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked number")
