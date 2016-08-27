@@ -243,6 +243,7 @@ function create_config( )
     "plugins",
     "lock_bots",
     "lock_number",
+    "lock_join",
     "lock_reply",
     "lock_fwd",
     "lock_leave",
