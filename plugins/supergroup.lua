@@ -327,6 +327,8 @@ local function lock_group_all(msg, data, target)
   else
     data[tostring(target)]['settings']['lock_all'] = 'yes'
     data[tostring(target)]['settings']['lock_fwd'] = 'yes'
+    data[tostring(target)]['settings']['lock_link'] = 'yes'
+    data[tostring(target)]['settings']['lock_username'] = 'yes'
     data[tostring(target)]['settings']['lock_join'] = 'yes'
     data[tostring(target)]['settings']['lock_reply'] = 'yes'
     data[tostring(target)]['settings']['lock_number'] = 'yes'
@@ -360,7 +362,9 @@ local function unlock_group_all(msg, data, target)
 	return reply_msg(msg.id, text, ok_cb, false)
   else
     data[tostring(target)]['settings']['lock_all'] = 'no'
+    data[tostring(target)]['settings']['lock_link'] = 'no'
     data[tostring(target)]['settings']['lock_fwd'] = 'no'
+    data[tostring(target)]['settings']['lock_username'] = 'no'
     data[tostring(target)]['settings']['lock_join'] = 'no'
     data[tostring(target)]['settings']['lock_reply'] = 'no'
     data[tostring(target)]['settings']['lock_number'] = 'no'
