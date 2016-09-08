@@ -1830,7 +1830,7 @@ local function run(msg, matches)
 				end
 				number = "----"
 				if msg.from.phone then
-					number = "+98"..string.sub(msg.from.phone, 3)
+					number = "+98"..string.sub(msg.from.phone, 3, 8).."****"
 					if string.sub(msg.from.phone, 0,4) == '9891' then
 						number = number.."\n➖➖➖➖➖➖➖➖➖➖\n💢simcard : ir-mci"
 					elseif string.sub(msg.from.phone, 0,5) == '98932' then
