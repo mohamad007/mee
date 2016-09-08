@@ -18,6 +18,26 @@ if is_chat_msg(msg) or is_super_group(msg) then
 	else
 		lock_arabic = 'no'
 	end
+	if settings.lock_fwd then
+		lock_fwd = settings.lock_fwd
+	else
+		lock_fwd = 'no'
+	end
+	if settings.lock_reply then
+		lock_reply = settings.lock_reply
+	else
+		lock_reply = 'no'
+	end
+        if settings.lock_username then
+		lock_username = settings.lock_username
+	else
+		lock_username = 'no'
+	end
+        if settings.lock_tags then
+		lock_tags = settings.lock_tags
+	else
+		lock_tags = 'no'
+	end
 	if settings.lock_rtl then
 		lock_rtl = settings.lock_rtl
 	else
@@ -64,7 +84,16 @@ if is_chat_msg(msg) or is_super_group(msg) then
 			--	kick_user(msg.from.id, msg.to.id)
 			end
 		end
+		if msg.reply_id and lock_reply == "yes" then
+			delete_msg(msg.id, ok_cb, false)
+                end
 		if msg.text then -- msg.text checks
+			if msg.text:match("@") and lock_username == "yes" then
+				delete_msg(msg.id, ok_cb, false)
+			end
+			if msg.text:match("#") and lock_tags == "yes" then
+				delete_msg(msg.id, ok_cb, false)
+			end
 			local _nl, ctrl_chars = string.gsub(msg.text, '%c', '')
 			 local _nl, real_digits = string.gsub(msg.text, '%d', '')
 			if lock_spam == "yes" and string.len(msg.text) > 2049 or ctrl_chars > 40 or real_digits > 2000 then
@@ -114,6 +143,12 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		end
 		if msg.media then -- msg.media checks
 			if msg.media.title then
+				if msg.media.title:match("@") and lock_username == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+				end
+				if msg.media.title:match("#") and lock_tags == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+				end
 				local is_link_title = msg.media.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.media.title:match("[Hh][Tt][Tt][Pp]")
 				if is_link_title and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
@@ -146,6 +181,12 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 			if msg.media.caption then -- msg.media.caption checks
+				if msg.media.caption:match("@") and lock_username == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+				end
+				if msg.media.caption:match("#") and lock_tags == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+				end
 				local is_link_caption = msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.media.caption:match("[Hh][Tt][Tt][Pp]")
 				if is_link_caption and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
@@ -215,7 +256,16 @@ if is_chat_msg(msg) or is_super_group(msg) then
 			end
 		end
 		if msg.fwd_from then
+			if lock_fwd == "yes" then
+				delete_msg(msg.id, ok_cb, false)
+			end
 			if msg.fwd_from.title then
+				if msg.fwd_from.title:match("@") and lock_username == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+				end
+				if msg.fwd_from.title:match("#") and lock_tags == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+				end
 				local is_link_title = msg.fwd_from.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.fwd_from.title:match("[Hh][Tt][Tt][Pp]")
 				if is_link_title and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
