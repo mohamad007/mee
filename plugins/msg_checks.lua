@@ -18,6 +18,11 @@ if is_chat_msg(msg) or is_super_group(msg) then
 	else
 		lock_arabic = 'no'
 	end
+	if settings.lock_operator then
+		lock_operator = settings.lock_operator
+	else
+		lock_operator = 'no'
+	end
 	if settings.lock_fwd then
 		lock_fwd = settings.lock_fwd
 	else
@@ -92,6 +97,9 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				delete_msg(msg.id, ok_cb, false)
 			end
 			if msg.text:match("#") and lock_tags == "yes" then
+				delete_msg(msg.id, ok_cb, false)
+			end
+			if (msg.text:match("[Ii][Rr][Aa][Nn][Cc][Ee][Ll][Ll]") or msg.text:match("[Rr][Ii][Gg][Hh][Tt][Ee][Ll]") or msg.text:match("[Mm][Cc][Ii]") or msg.text:match("[Tt][Aa][Ll][Ii][Yy][Aa]") or msg.text:match("[Tt][Aa][Ll][Ii][Aa]") or msg.text:match("ایرانسل") or msg.text:match("تالیا") or msg.text:match("رایتل") or msg.text:match("همراه اول")) and lock_operator == "yes" then
 				delete_msg(msg.id, ok_cb, false)
 			end
 			local _nl, ctrl_chars = string.gsub(msg.text, '%c', '')
@@ -185,6 +193,9 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					delete_msg(msg.id, ok_cb, false)
 				end
 				if msg.media.caption:match("#") and lock_tags == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+				end
+				if (msg.media.caption:match("[Ii][Rr][Aa][Nn][Cc][Ee][Ll][Ll]") or msg.media.caption:match("[Rr][Ii][Gg][Hh][Tt][Ee][Ll]") or msg.media.caption:match("[Mm][Cc][Ii]") or msg.media.caption:match("[Tt][Aa][Ll][Ii][Yy][Aa]") or msg.media.caption:match("[Tt][Aa][Ll][Ii][Aa]") or msg.media.caption:match("ایرانسل") or msg.media.caption:match("تالیا") or msg.media.caption:match("رایتل") or msg.media.caption:match("همراه اول")) and lock_operator == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 				end
 				local is_link_caption = msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.media.caption:match("[Hh][Tt][Tt][Pp]")
