@@ -29,8 +29,7 @@ end
 end
 return {
   patterns = {
-	"^[!/#](photo)$",
-	"%[(photo)%]",
+	"^[!/#](photo)$"
   },
   run = run,
   } 
