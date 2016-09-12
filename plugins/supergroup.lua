@@ -20,6 +20,7 @@ local function check_member_super(cb_extra, success, result)
           set_name = string.gsub(msg.to.title, '_', ' '),
 		  lock_arabic = 'no',
 		  lock_link = "no",
+		  lock_inline = "no",
 		  lock_bots = "yes",
 		  lock_tags = "no",
 		  lock_emoji = "no",
@@ -221,6 +222,38 @@ local function unlock_group_links(msg, data, target)
   end
 end
 
+local function lock_group_inline(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_inline_lock = data[tostring(target)]['settings']['lock_inline']
+  if group_inline_lock == 'yes' then
+    local text = 'inline posting is already locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_inline'] = 'yes'
+    save_data(_config.moderation.data, data)
+    local text = 'inline posting has been locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
+local function unlock_group_inline(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_inline_lock = data[tostring(target)]['settings']['lock_inline']
+  if group_inline_lock == 'no' then
+    local text = 'inline posting is not locked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  else
+    data[tostring(target)]['settings']['lock_inline'] = 'no'
+    save_data(_config.moderation.data, data)
+    local text = 'inline posting has been unlocked'
+	return reply_msg(msg.id, text, ok_cb, false)
+  end
+end
+
 local function lock_group_operator(msg, data, target)
   if not is_momod(msg) then
     return
@@ -366,6 +399,7 @@ local function lock_group_all(msg, data, target)
     data[tostring(target)]['settings']['lock_reply'] = 'yes'
     data[tostring(target)]['settings']['lock_number'] = 'yes'
     data[tostring(target)]['settings']['lock_english'] = 'yes'
+    data[tostring(target)]['settings']['lock_inline'] = 'yes'
     data[tostring(target)]['settings']['lock_leave'] = 'yes'
     data[tostring(target)]['settings']['lock_tags'] = 'yes'
     data[tostring(target)]['settings']['lock_operator'] = 'yes'
@@ -404,6 +438,7 @@ local function unlock_group_all(msg, data, target)
     data[tostring(target)]['settings']['lock_number'] = 'no'
     data[tostring(target)]['settings']['lock_english'] = 'no'
     data[tostring(target)]['settings']['lock_leave'] = 'no'
+    data[tostring(target)]['settings']['lock_inline'] = 'no'
     data[tostring(target)]['settings']['lock_tags'] = 'no'
     data[tostring(target)]['settings']['lock_operator'] = 'no'
     data[tostring(target)]['settings']['lock_emoji'] = 'no'
@@ -1093,6 +1128,11 @@ if data[tostring(target)]['settings'] then
 		end
 end
 if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_inline'] then
+			data[tostring(target)]['settings']['lock_inline'] = 'no'
+		end
+end
+if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_leave'] then
 			data[tostring(target)]['settings']['lock_leave'] = 'no'
 		end
@@ -1144,7 +1184,7 @@ end
 	end
   local settings = data[tostring(target)]['settings']
   local chat_id = msg.to.id
-  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n🔶Lock links : "..settings.lock_link.."\n🔶Lock flood: "..settings.flood.."\n🔶Lock spam: "..settings.lock_spam.."\n🔶Lock Tags : "..settings.lock_tags.."\n🔶Lock Number: "..settings.lock_number.."\n🔶Lock Forward : "..settings.lock_fwd.."\n🔶Lock Reply : "..settings.lock_reply.."\n🔶Lock Contacts: "..settings.lock_contacts.."\n🔶Lock Emoji: "..settings.lock_emoji.."\n🔶Lock Username : "..settings.lock_username.."\n🔶Lock Media: "..settings.lock_media.."\n🔶Lock Bots: "..settings.lock_bots.."\n🔶Lock Leave: "..settings.lock_leave.."\n🔶Lock English: "..settings.lock_english.."\n🔶Lock Arabic: "..settings.lock_arabic.."\n🔶Lock Operator: "..settings.lock_operator.."\n🔶Lock Join: "..settings.lock_join.."\n🔶Lock Member: "..settings.lock_member.."\n🔶Lock RTL: "..settings.lock_rtl.."\n🔶Lock Tgservice : "..settings.lock_tgservice.."\n🔶Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n🔶Flood sensitivity : "..NUM_MSG_MAX.."\n🔶Public: "..settings.public.."\n🔶Strict settings: "..settings.strict.."\n🔶Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
+  local text = "➖➖➖➖➖➖➖➖➖➖\n🔧SuperGroup settings🔧\n➖➖➖➖➖➖➖➖➖➖\n🔶Lock links : "..settings.lock_link.."\n🔶Lock flood: "..settings.flood.."\n🔶Lock spam: "..settings.lock_spam.."\n🔶Lock Tags : "..settings.lock_tags.."\n🔶Lock Number: "..settings.lock_number.."\n🔶Lock Forward : "..settings.lock_fwd.."\n🔶Lock Reply : "..settings.lock_reply.."\n🔶Lock Contacts: "..settings.lock_contacts.."\n🔶Lock Emoji: "..settings.lock_emoji.."\n🔶Lock Username : "..settings.lock_username.."\n🔶Lock Media: "..settings.lock_media.."\n🔶Lock Bots: "..settings.lock_bots.."\n🔶Lock Leave: "..settings.lock_leave.."\n🔶Lock English: "..settings.lock_english.."\n🔶Lock Arabic: "..settings.lock_arabic.."\n🔶Lock Inline_Msg: "..settings.lock_inline.."\n🔶Lock Operator: "..settings.lock_operator.."\n🔶Lock Join: "..settings.lock_join.."\n🔶Lock Member: "..settings.lock_member.."\n🔶Lock RTL: "..settings.lock_rtl.."\n🔶Lock Tgservice : "..settings.lock_tgservice.."\n🔶Lock sticker: "..settings.lock_sticker.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MoreSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n🔶Flood sensitivity : "..NUM_MSG_MAX.."\n🔶Public: "..settings.public.."\n🔶Strict settings: "..settings.strict.."\n🔶Lock All: "..settings.lock_all.."\n➖➖➖➖➖➖➖➖➖➖\n🔧MuteSettings🔧\n➖➖➖➖➖➖➖➖➖➖\n"..mutes_list(chat_id).."\n➖➖➖➖➖➖➖➖➖➖\nBy Cyber\nAll rights reserved"
   local text = string.gsub(text,'yes','✅')
   local text = string.gsub(text,'no','❌')
   return reply_msg(msg.id, text, ok_cb, false)
@@ -2287,6 +2327,10 @@ local function run(msg, matches)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked link posting ")
 				return lock_group_links(msg, data, target)
 			end
+			if matches[2] == 'inline' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked inline posting ")
+				return lock_group_inline(msg, data, target)
+			end
 			if matches[2] == 'operator' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked operator posting ")
 				return lock_group_operator(msg, data, target)
@@ -2382,6 +2426,10 @@ local function run(msg, matches)
 			if matches[2] == 'links' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked link posting")
 				return unlock_group_links(msg, data, target)
+			end
+			if matches[2] == 'inline' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked inline posting")
+				return unlock_group_inline(msg, data, target)
 			end
 			if matches[2] == 'operator' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked operator posting")
@@ -2830,6 +2878,4 @@ return {
   run = run,
   pre_process = pre_process
 }
---End supergrpup.lua
---By @alireza_PT
---channel : @create_antispam_bot
+--Cyber
