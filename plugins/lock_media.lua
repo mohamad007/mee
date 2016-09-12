@@ -22,7 +22,6 @@ patterns = {
 "%[(document)%]",
 "%[(video)%]",
 "%[(audio)%]",
-"%[(unsupported)%]",
 },
  run = run
 }
