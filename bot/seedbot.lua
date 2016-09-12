@@ -248,6 +248,7 @@ function create_config( )
     "lock_english",
     "lock_emoji",
     "lock_media",
+    "lock_inline",
     "leave_ban",
 	"supergroup",
 	"whitelist",
